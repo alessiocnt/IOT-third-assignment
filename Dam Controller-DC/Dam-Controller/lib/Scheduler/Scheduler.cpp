@@ -1,7 +1,6 @@
 #include "Scheduler.h"
 #include <TimerOne.h>
 //#include <MsTimer2.h>
-#include "MsgService.h" // togli
 
 volatile bool timerFlag;
 
@@ -21,7 +20,7 @@ void Scheduler::init(int basePeriod)
 
 void Scheduler::addTask(Task *task)
 {
-    taskList.add(task);
+    //taskList.add(task);
 }
 
 void Scheduler::schedule()
@@ -30,12 +29,12 @@ void Scheduler::schedule()
     while (!timerFlag) {}
     timerFlag = false;
 
-    for (int i = 0; i < taskList.size(); i++)
-    {
-        Task *it = taskList.get(i);
-        if (it->isActive() && it->updateAndCheckTime(basePeriod))
-        {
-            it->tick();
-        }
-    }
+    // for (int i = 0; i < taskList.size(); i++)
+    // {
+    //     Task *it = taskList.get(i);
+    //     if (it->isActive() && it->updateAndCheckTime(basePeriod))
+    //     {
+    //         it->tick();
+    //     }
+    // }
 }
