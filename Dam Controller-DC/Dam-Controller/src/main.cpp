@@ -1,4 +1,9 @@
 #include <Arduino.h>
+#include "Led.h"
+#include "ServoMotor.h"
+
+Led* led1;
+ServoMotor* servo;
 
 void setup() {
     // put your setup code here, to run once:

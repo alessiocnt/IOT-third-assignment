@@ -20,21 +20,20 @@ void Scheduler::init(int basePeriod)
 
 void Scheduler::addTask(Task *task)
 {
-    //taskList.add(task);
+    taskList.add(task);
 }
 
 void Scheduler::schedule()
 {
-    //BasePeriod max 20ms
     while (!timerFlag) {}
     timerFlag = false;
 
-    // for (int i = 0; i < taskList.size(); i++)
-    // {
-    //     Task *it = taskList.get(i);
-    //     if (it->isActive() && it->updateAndCheckTime(basePeriod))
-    //     {
-    //         it->tick();
-    //     }
-    // }
+    for (int i = 0; i < taskList.size(); i++)
+    {
+        Task *it = taskList.get(i);
+        if (it->isActive() && it->updateAndCheckTime(basePeriod))
+        {
+            it->tick();
+        }
+    }
 }
