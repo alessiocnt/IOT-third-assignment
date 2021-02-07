@@ -12,13 +12,12 @@
 class MsgControllerTask : public Task
 {
 private:
-    SoftwareSerial* btChannel;
     enum {
         NORMAL,
         ALARM
     } state;
 public:
-    MsgControllerTask(SoftwareSerial* btChannel);
+    MsgControllerTask();
     void init(int period);
     void tick();
 };
