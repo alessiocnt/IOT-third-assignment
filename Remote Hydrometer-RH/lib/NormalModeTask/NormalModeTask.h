@@ -15,7 +15,6 @@ private:
     Sonar *sonar;
     Led *led;
     float prevDistance;
-    bool firstRun;
 
 public:
     NormalModeTask(Sonar *sonar, Led *led);

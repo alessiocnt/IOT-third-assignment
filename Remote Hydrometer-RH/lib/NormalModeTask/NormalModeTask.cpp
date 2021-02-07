@@ -15,11 +15,6 @@ void NormalModeTask::init(int period)
 void NormalModeTask::tick()
 {
     Serial.println("NormalMode");
-    if(firstRun)
-    {
-        firstRun = false;
-        led->switchOff();
-    }
     float currentDistance = sonar->getDistance();
     Serial.println(currentDistance);
     // Nel caso in cui ci sia una variazione eccessiva del valore in un lasso di tempo molto limitato ipotizzo una lettura errata del dispositivo
@@ -31,12 +26,14 @@ void NormalModeTask::tick()
         {
             this->setActive(false);
             Serial.println("Vado in pre");
+            //preAllarmModeTask->setup();
             //preAllarmModeTask->setActive(true);
         } 
         else if (currentDistance <= D2)
         {
             this->setActive(false);
             Serial.println("Vado in allarme");
+            //allarmModeTask->setup();
             //allarmModeTask->setActive(true);
         }
         else
@@ -47,6 +44,5 @@ void NormalModeTask::tick()
 
 void NormalModeTask::setup()
 {
-    this->firstRun = true;
     this->prevDistance = sonar->getDistance();
 }
