@@ -10,12 +10,17 @@
 #include "Scheduler.h"
 #include "Sonar.h"
 #include "NormalModeTask.h"
+#include "NormalModeTask.h"
+#include "PreAllarmModeTask.h"
+//#include "AllarmModeTask.h"
 
 BlinkTask *blinkTask;
+NormalModeTask* normalModeTask;
+PreAllarmModeTask* preAllarmModeTask;
+//AllarmModeTask* allarmModeTask;
 
 Led *led;
 Sonar *sonar;
-NormalModeTask* normalModeTask;
 
 
 Scheduler scheduler;
@@ -29,8 +34,8 @@ void createSensors()
 void createTasks()
 {
     normalModeTask = new NormalModeTask(sonar, led);
-    // preAllarmModeTask = new preAllarmModeTask(sonar, led);
-    // allarmModeTask = new allarmModeTask(sonar, led);
+    preAllarmModeTask = new PreAllarmModeTask(sonar, led);
+    // allarmModeTask = new AllarmModeTask(sonar, led);
     blinkTask = new BlinkTask();
 }
 
@@ -51,6 +56,7 @@ void setupTasks()
 
 void setup()
 {
+    Serial.begin(115200);
     createSensors();
     createTasks();
     setupTasks();
@@ -60,5 +66,6 @@ void setup()
 
 void loop()
 {
+    Serial.println("Loop");
     scheduler.schedule();
 }

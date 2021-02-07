@@ -23,8 +23,7 @@ float Sonar::getDistance()
     /* ricevi l’eco */
     long tUS = pulseInLong(echoPin, HIGH);
 
-    double t = tUS / 1000.0 / 1000.0 / 2;
-    double d = t * soundSpeed;
+    double d = tUS * soundSpeed / 1000.0 / 1000.0 / 2;
     if (d - lastDistance > 5)
     {
         // Errore di lettura, scarto il valore ritornando -1
