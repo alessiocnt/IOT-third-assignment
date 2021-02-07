@@ -1,5 +1,5 @@
 #include "Scheduler.h"
-#include <TimerOne.h>
+#include <Ticker.h>
 
 volatile bool timerFlag;
 
@@ -12,9 +12,10 @@ void Scheduler::init(int basePeriod)
 {
     this->basePeriod = basePeriod;
     timerFlag = false;
-    long period = 1000l * basePeriod;
-    Timer1.initialize(period);
-    Timer1.attachInterrupt(timerHandler);
+    // Handler richiamato ogni 250ms
+    timer1_attachInterrupt(timerHandler);
+    timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);
+    timer1_write(5000* basePeriod);
 }
 
 void Scheduler::addTask(Task *task)

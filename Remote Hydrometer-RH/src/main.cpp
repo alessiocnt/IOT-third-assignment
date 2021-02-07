@@ -51,6 +51,7 @@ void setupTasks()
 
 void setup()
 {
+    Serial.begin(115200);
     createSensors();
     createTasks();
     setupTasks();
@@ -60,5 +61,6 @@ void setup()
 
 void loop()
 {
+    Serial.println("Loop");
     scheduler.schedule();
 }
