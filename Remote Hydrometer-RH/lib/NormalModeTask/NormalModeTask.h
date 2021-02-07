@@ -7,7 +7,6 @@
 #include "Task.h"
 #include "Led.h"
 #include "Sonar.h"
-#include "MsgService.h"
 
 // Class that models a NormalModeTask - Puts the system in normal mode or maintains the sys in this state
 class NormalModeTask : public Task

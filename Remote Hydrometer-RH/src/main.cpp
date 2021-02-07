@@ -4,17 +4,19 @@
 */
 
 #include <Arduino.h>
-#include <EnableInterrupt.h>
 #include "main.h"
 #include "Led.h"
 #include "header.h"
 #include "Scheduler.h"
-#include "MsgService.h"
+#include "Sonar.h"
+#include "NormalModeTask.h"
 
 BlinkTask *blinkTask;
 
 Led *led;
 Sonar *sonar;
+NormalModeTask* normalModeTask;
+
 
 Scheduler scheduler;
 
@@ -26,9 +28,9 @@ void createSensors()
 
 void createTasks()
 {
-    normalModeTask = new normalModeTask(sonar, led);
-    preAllarmModeTask = new preAllarmModeTask(sonar, led);
-    allarmModeTask = new allarmModeTask(sonar, led);
+    normalModeTask = new NormalModeTask(sonar, led);
+    // preAllarmModeTask = new preAllarmModeTask(sonar, led);
+    // allarmModeTask = new allarmModeTask(sonar, led);
     blinkTask = new BlinkTask();
 }
 
@@ -37,11 +39,11 @@ void setupTasks()
     normalModeTask->init(NORMAL_PERIOD);
     scheduler.addTask(normalModeTask);
 
-    preAllarmModeTask->init(PRE_ALLARM_PERIOD);
-    scheduler.addTask(preAllarmModeTask);
+    // preAllarmModeTask->init(PRE_ALLARM_PERIOD);
+    // scheduler.addTask(preAllarmModeTask);
 
-    allarmModeTask->init(ALLARM_PERIOD);
-    scheduler.addTask(allarmModeTask);
+    // allarmModeTask->init(ALLARM_PERIOD);
+    // scheduler.addTask(allarmModeTask);
 
     scheduler.addTask(blinkTask);
     blinkTask->setActive(false);
@@ -49,7 +51,6 @@ void setupTasks()
 
 void setup()
 {
-    MsgService.init();
     createSensors();
     createTasks();
     setupTasks();
