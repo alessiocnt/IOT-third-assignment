@@ -1,18 +1,18 @@
-#ifndef __NORMAL_STATE__
-#define __NORMAL_STATE__
+#ifndef __MANUAL_MODE_TASK__
+#define __MANUAL_MODE_TASK__
 
 #include <Arduino.h>
-#include "header.h"
 #include "Task.h"
+#include "header.h"
 #include "main.h"
 
 #define DELTA 10
 #define INIT_DELAY 15
 
-class NormalStateTask : public Task
+class ManualModeTask : public Task
 {
 public:
-    NormalStateTask();
+    ManualModeTask();
     void init(int period);
     void tick();
 };

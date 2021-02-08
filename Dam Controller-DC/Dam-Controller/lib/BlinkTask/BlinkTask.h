@@ -4,6 +4,7 @@
 #include "Task.h"
 #include "Led.h"
 #include "header.h"
+#include "main.h"
 
 #define BLINK_FOREVER -1
 

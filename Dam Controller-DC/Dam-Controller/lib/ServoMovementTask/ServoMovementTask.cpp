@@ -9,7 +9,7 @@ ServoMovementTask::ServoMovementTask(ServoMotor *servoMotor)
 
 void ServoMovementTask::init(int period)
 {
-    MsgService.sendMsg("Initializing servo");
+    Serial.println("Initializing Servo");
     servoMotor->on();
     while (position > 0)
     {
@@ -17,7 +17,7 @@ void ServoMovementTask::init(int period)
         setServoPosition(position);
         delay(INIT_DELAY);
     }
-    MsgService.sendMsg("Servo Initialized");
+    Serial.println("Servo initialized");
     Task::init(period);
 }
 
@@ -30,6 +30,10 @@ void ServoMovementTask::tick()
 {
     if (position == nextPosition)
     {
+        return;
+    }
+    if(abs(nextPosition - position) < DELTA) {
+        position = nextPosition;
         return;
     }
     if (position > nextPosition)

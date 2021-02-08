@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "Task.h"
 #include "header.h"
+#include "main.h"
 #include "SoftwareSerial.h"
 
 #define DELTA 10
@@ -14,8 +15,10 @@ class MsgControllerTask : public Task
 private:
     enum {
         NORMAL,
-        ALARM
+        ALARM,
+        MANUAL
     } state;
+    void msgInterpreter(String msg);
 public:
     MsgControllerTask();
     void init(int period);

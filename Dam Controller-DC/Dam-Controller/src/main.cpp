@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "SoftwareSerial.h"
 #include "header.h"
+#include "main.h"
 #include "Led.h"
 #include "ServoMotor.h"
-#include "MsgService.h"
 #include "BlinkTask.h"
 #include "ServoMovementTask.h"
 #include "MsgControllerTask.h"
@@ -23,6 +23,7 @@ Led *led1;
 ServoMotor *servo;
 NormalStateTask *normalStateTask;
 AlarmStateTask *alarmStateTask;
+ManualModeTask *manualModeTask;
 MsgControllerTask *msgControllerTask;
 SoftwareSerial btChannel(HC_TX_PIN, HC_RX_PIN);
 
@@ -38,8 +39,9 @@ void createTasks()
 {
     servoMovementTask = new ServoMovementTask(servo);
     blinkTask = new BlinkTask();
-    // normalStateTask = new NormalStateTask();
-    // alarmStateTask = new AlarmStateTask();
+    normalStateTask = new NormalStateTask();
+    alarmStateTask = new AlarmStateTask();
+    manualModeTask = new ManualModeTask();
     msgControllerTask = new MsgControllerTask();
 }
 
@@ -48,12 +50,15 @@ void setupTasks()
     int MCD = 50;
     servoMovementTask->init(MCD);
     scheduler.addTask(servoMovementTask);
-    blinkTask->init(MCD, led1, BLINK_FOREVER);
+    servoMovementTask->setActive(true);
+    blinkTask->init(MCD * 5, led1, BLINK_FOREVER);
     scheduler.addTask(blinkTask);
-    // normalStateTask->init(MCD);
-    // scheduler.addTask(normalStateTask);
-    // alarmStateTask->init(MCD);
-    // scheduler.addTask(alarmStateTask);
+    normalStateTask->init(MCD);
+    scheduler.addTask(normalStateTask);
+    alarmStateTask->init(MCD);
+    scheduler.addTask(alarmStateTask);
+    manualModeTask->init(MCD);
+    scheduler.addTask(manualModeTask);
     msgControllerTask->init(MCD);
     scheduler.addTask(msgControllerTask);
     msgControllerTask->setActive(true);
@@ -61,11 +66,11 @@ void setupTasks()
 
 void setup()
 {
-    MsgService.init();
-    scheduler.init(50);
+    Serial.begin(9600);
     createSensors();
     createTasks();
     setupTasks();
+    scheduler.init(50);
 }
 
 void loop()
