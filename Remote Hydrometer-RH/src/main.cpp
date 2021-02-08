@@ -9,10 +9,16 @@
 #include "Scheduler.h"
 #include "Led.h"
 #include "Sonar.h"
+
+#include "Mqtt.h"
+#include "WifiConnector.h"
 /* #include "NormalModeTask.h"
 #include "PreAllarmModeTask.h"
 #include "BlinkTask.h" */
 //#include "AllarmModeTask.h"
+const char* ssid     = "android_ale";         // The SSID (name) of the Wi-Fi network you want to connect to
+const char* password = "alessio3";          // The password of the Wi-Fi network
+Mqtt *mqtt = new Mqtt();
 
 BlinkTask *blinkTask;
 NormalModeTask* normalModeTask;
@@ -57,15 +63,21 @@ void setupTasks()
 void setup()
 {
     Serial.begin(115200);
+    delay(10);
+    WifiConnector::setupWifi(ssid, password);
+    mqtt->connect("broker.mqtt-dashboard.com");
+//    mqtt->subscribe("inTopic");
     createSensors();
     createTasks();
     setupTasks();
     scheduler.init(SCHEDULER_FREQ);
     normalModeTask->setActive(true);
+    Serial.println("READY!");
 }
 
 void loop()
 {
-    Serial.println("Loop");
+    //Serial.println("Loop");
+    mqtt->loop();
     scheduler.schedule();
 }

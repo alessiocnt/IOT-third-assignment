@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "header.h"
 #include "main.h"
+#include "Mqtt.h"
 #include "Task.h"
 #include "Led.h"
 #include "Sonar.h"

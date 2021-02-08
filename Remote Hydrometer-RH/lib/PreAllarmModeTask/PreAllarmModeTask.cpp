@@ -23,12 +23,17 @@ void PreAllarmModeTask::tick()
     {
         /* Send msg */
         Serial.println("Invio pre");
+        /* Convert float to char[] */
+        char b[sizeof(float)];
+        memcpy(b, &currentDistance, sizeof(currentDistance));
+        mqtt->publish("SimAleD", b);
         this->setup();
     }
 
     if(currentDistance >= D1) 
     {
         Serial.println("Vado in norm");
+        mqtt->publish("SimAleS", "Normal");
         this->setActive(false);
         blinkTask->setActive(false);
         led->switchOff();
@@ -38,6 +43,7 @@ void PreAllarmModeTask::tick()
     else if (currentDistance <= D2)
     {
         Serial.println("Vado in Allarme");
+        mqtt->publish("SimAleS", "Allarm");
         this->setActive(false);
         blinkTask->setActive(false);
         led->switchOn();
