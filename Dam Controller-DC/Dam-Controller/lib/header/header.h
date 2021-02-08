@@ -1,6 +1,8 @@
 #ifndef __HEADER__
 #define __HEADER__
 
+#include "SoftwareSerial.h"
+
 class ServoMovementTask;
 class BlinkTask;
 class Led;
@@ -14,5 +16,6 @@ class Led;
 extern ServoMovementTask* servoMovementTask;
 extern BlinkTask* blinkTask;
 extern Led* led1;
+extern SoftwareSerial btChannel;
 
 #endif
