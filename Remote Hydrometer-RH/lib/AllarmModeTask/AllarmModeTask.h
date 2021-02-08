@@ -1,5 +1,5 @@
-#ifndef __NORMALMODETASK__
-#define __NORMALMODETASK__
+#ifndef __ALLMODETASK__
+#define __ALLMODETASK__
 
 #include <Arduino.h>
 #include "header.h"
@@ -9,19 +9,19 @@
 #include "Sonar.h"
 
 #include "BlinkTask.h"
+#include "NormalModeTask.h"
 #include "PreAllarmModeTask.h"
-#include "AllarmModeTask.h"
 
-// Class that models a NormalModeTask - Puts the system in normal mode or maintains the sys in this state
-class NormalModeTask : public Task
+// Class that models a AllarmModeTask - Puts the system in allarm mode or maintains the sys in this state
+class AllarmModeTask : public Task
 {
 private:
     Sonar *sonar;
     Led *led;
-    float prevDistance;
+    bool firstRun;
 
 public:
-    NormalModeTask(Sonar *sonar, Led *led);
+    AllarmModeTask(Sonar *sonar, Led *led);
     void init(int period);
     void tick();
     void setup();

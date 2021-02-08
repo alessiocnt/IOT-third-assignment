@@ -22,21 +22,24 @@ void NormalModeTask::tick()
     {
         return;
     } */
-    /*     if(currentDistance >= D2 && currentDistance <= D1) 
+        if(currentDistance >= D2 && currentDistance <= D1) 
         {
-            this->setActive(false);
             Serial.println("Vado in pre");
-            //preAllarmModeTask->setup();
-            //preAllarmModeTask->setActive(true);
+            this->setActive(false);
+            blinkTask->init(BLINKING_PERIOD, led, BLINK_FOREVER);
+            blinkTask->setActive(true);
+            preAllarmModeTask->setup();
+            preAllarmModeTask->setActive(true);
         } 
         else if (currentDistance <= D2)
         {
             this->setActive(false);
             Serial.println("Vado in allarme");
-            //allarmModeTask->setup();
-            //allarmModeTask->setActive(true);
+            led->switchOn();
+            allarmModeTask->setup();
+            allarmModeTask->setActive(true);
         }
-        else
+        /* else
         {
             this->prevDistance = currentDistance;
         } */

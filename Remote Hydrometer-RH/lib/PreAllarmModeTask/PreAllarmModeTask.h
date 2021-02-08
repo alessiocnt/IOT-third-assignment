@@ -8,6 +8,10 @@
 #include "Led.h"
 #include "Sonar.h"
 
+#include "BlinkTask.h"
+#include "NormalModeTask.h"
+#include "AllarmModeTask.h"
+
 // Class that models a PreAllarmModeTask - Puts the system in pre allarm mode or maintains the sys in this state
 class PreAllarmModeTask : public Task
 {

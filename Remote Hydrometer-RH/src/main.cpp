@@ -5,19 +5,19 @@
 
 #include <Arduino.h>
 #include "main.h"
-#include "Led.h"
 #include "header.h"
 #include "Scheduler.h"
+#include "Led.h"
 #include "Sonar.h"
-#include "NormalModeTask.h"
-#include "NormalModeTask.h"
+/* #include "NormalModeTask.h"
 #include "PreAllarmModeTask.h"
+#include "BlinkTask.h" */
 //#include "AllarmModeTask.h"
 
 BlinkTask *blinkTask;
 NormalModeTask* normalModeTask;
 PreAllarmModeTask* preAllarmModeTask;
-//AllarmModeTask* allarmModeTask;
+AllarmModeTask* allarmModeTask;
 
 Led *led;
 Sonar *sonar;
@@ -35,7 +35,7 @@ void createTasks()
 {
     normalModeTask = new NormalModeTask(sonar, led);
     preAllarmModeTask = new PreAllarmModeTask(sonar, led);
-    // allarmModeTask = new AllarmModeTask(sonar, led);
+    allarmModeTask = new AllarmModeTask(sonar, led);
     blinkTask = new BlinkTask();
 }
 
@@ -44,11 +44,11 @@ void setupTasks()
     normalModeTask->init(NORMAL_PERIOD);
     scheduler.addTask(normalModeTask);
 
-    // preAllarmModeTask->init(PRE_ALLARM_PERIOD);
-    // scheduler.addTask(preAllarmModeTask);
+    preAllarmModeTask->init(PRE_ALLARM_PERIOD);
+    scheduler.addTask(preAllarmModeTask);
 
-    // allarmModeTask->init(ALLARM_PERIOD);
-    // scheduler.addTask(allarmModeTask);
+    allarmModeTask->init(ALLARM_PERIOD);
+    scheduler.addTask(allarmModeTask);
 
     scheduler.addTask(blinkTask);
     blinkTask->setActive(false);
