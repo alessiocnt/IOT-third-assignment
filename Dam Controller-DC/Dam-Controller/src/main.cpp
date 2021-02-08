@@ -3,7 +3,6 @@
 #include "header.h"
 #include "Led.h"
 #include "ServoMotor.h"
-#include "MsgService.h"
 #include "BlinkTask.h"
 #include "ServoMovementTask.h"
 #include "MsgControllerTask.h"
@@ -61,7 +60,7 @@ void setupTasks()
 
 void setup()
 {
-    MsgService.init();
+    Serial.begin(9600);
     scheduler.init(50);
     createSensors();
     createTasks();
