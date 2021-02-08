@@ -27,7 +27,6 @@ void AllarmModeTask::tick()
         char buff[6];
         dtostrf(currentDistance, 4, 2, buff);
         Serial.println(buff);
-        String(currentDistance);
         mqtt->publish("SimAleD", buff);
         this->setup();
     }

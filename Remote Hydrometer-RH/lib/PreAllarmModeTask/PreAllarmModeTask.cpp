@@ -24,9 +24,10 @@ void PreAllarmModeTask::tick()
         /* Send msg */
         Serial.println("Invio pre");
         /* Convert float to char[] */
-        char b[sizeof(float)];
-        memcpy(b, &currentDistance, sizeof(currentDistance));
-        mqtt->publish("SimAleD", b);
+        char buff[6];
+        dtostrf(currentDistance, 4, 2, buff);
+        Serial.println(buff);
+        mqtt->publish("SimAleD", buff);
         this->setup();
     }
 
