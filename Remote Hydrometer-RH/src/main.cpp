@@ -41,13 +41,13 @@ void createTasks()
 
 void setupTasks()
 {
-    normalModeTask->init(NORMAL_PERIOD);
+    normalModeTask->init(STD_PERIOD);
     scheduler.addTask(normalModeTask);
 
-    preAllarmModeTask->init(PRE_ALLARM_PERIOD);
+    preAllarmModeTask->init(STD_PERIOD);
     scheduler.addTask(preAllarmModeTask);
 
-    allarmModeTask->init(ALLARM_PERIOD);
+    allarmModeTask->init(STD_PERIOD);
     scheduler.addTask(allarmModeTask);
 
     scheduler.addTask(blinkTask);

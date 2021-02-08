@@ -14,14 +14,17 @@ void AllarmModeTask::init(int period)
 
 void AllarmModeTask::tick()
 {
-    Serial.println("AllMode");
-    /* if(firstRun)
-    {
-        firstRun = false;
-        led->switchOn();
-    } */
+   // Serial.println("AllMode");
+    timer++;
     float currentDistance = sonar->getDistance();
-    Serial.println(currentDistance);
+   // Serial.println(currentDistance);
+    if (this->myPeriod * this->timer >= SEND_ALL_TIME)
+    {
+        /* Send msg */
+        Serial.println("Invio all");
+        this->setup();
+    }
+    
     if(currentDistance >= D1) 
     {
         Serial.println("Vado in Norm");
@@ -43,5 +46,5 @@ void AllarmModeTask::tick()
 
 void AllarmModeTask::setup()
 {
-    this->firstRun = true;
+    this->timer = 0;
 }

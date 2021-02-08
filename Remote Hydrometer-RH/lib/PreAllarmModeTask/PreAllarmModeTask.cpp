@@ -10,19 +10,22 @@ PreAllarmModeTask::PreAllarmModeTask(Sonar *sonar, Led *led)
 void PreAllarmModeTask::init(int period)
 {
     Task::init(period);
+    this->setup();
 }
 
 void PreAllarmModeTask::tick()
 {
-    Serial.println("PreAllMode");
-    /* if(firstRun)
-    {
-        firstRun = false;
-        blinkTask->init(BLINKING_PERIOD, led, BLINK_FOREVER);
-        blinkTask->setActive(true);
-    } */
+    //Serial.println("PreAllMode");
+    timer++;
     float currentDistance = sonar->getDistance();
-    Serial.println(currentDistance);
+    //Serial.println(currentDistance);
+    if (this->myPeriod * this->timer >= SEND_PRE_ALL_TIME)
+    {
+        /* Send msg */
+        Serial.println("Invio pre");
+        this->setup();
+    }
+
     if(currentDistance >= D1) 
     {
         Serial.println("Vado in norm");
@@ -45,5 +48,5 @@ void PreAllarmModeTask::tick()
 
 void PreAllarmModeTask::setup()
 {
-    this->firstRun = true;
+    this->timer = 0;
 }

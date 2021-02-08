@@ -18,7 +18,7 @@ class AllarmModeTask : public Task
 private:
     Sonar *sonar;
     Led *led;
-    bool firstRun;
+    int timer;
 
 public:
     AllarmModeTask(Sonar *sonar, Led *led);

@@ -18,7 +18,7 @@ class PreAllarmModeTask : public Task
 private:
     Sonar *sonar;
     Led *led;
-    bool firstRun;
+    int timer;
 
 public:
     PreAllarmModeTask(Sonar *sonar, Led *led);

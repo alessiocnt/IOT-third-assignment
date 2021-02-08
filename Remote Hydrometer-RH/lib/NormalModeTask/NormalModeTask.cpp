@@ -14,9 +14,9 @@ void NormalModeTask::init(int period)
 
 void NormalModeTask::tick()
 {
-    Serial.println("NormalMode");
+  //  Serial.println("NormalMode");
     float currentDistance = sonar->getDistance();
-    Serial.println(currentDistance);
+   // Serial.println(currentDistance);
     // Nel caso in cui ci sia una variazione eccessiva del valore in un lasso di tempo molto limitato ipotizzo una lettura errata del dispositivo
     /* if(abs(currentDistance - prevDistance) > 1 )
     {

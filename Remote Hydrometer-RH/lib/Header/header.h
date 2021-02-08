@@ -3,11 +3,12 @@
 
 #define D1 1
 #define D2 0.4
-#define NORMAL_PERIOD 3000/* 15000 */
-#define PRE_ALLARM_PERIOD 10000
-#define ALLARM_PERIOD 5000
+#define STD_PERIOD 500
 #define BLINKING_PERIOD 250
 #define SCHEDULER_FREQ 250
+
+#define SEND_ALL_TIME 5000
+#define SEND_PRE_ALL_TIME 10000
 
 #define LED_PIN 5
 #define SONAR_TRIG_PIN 13
