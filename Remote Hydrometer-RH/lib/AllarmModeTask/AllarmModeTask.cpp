@@ -1,4 +1,5 @@
 #include "AllarmModeTask.h"
+#include<string>
 
 AllarmModeTask::AllarmModeTask(Sonar *sonar, Led *led)
 {
@@ -23,9 +24,11 @@ void AllarmModeTask::tick()
         /* Send msg */
         Serial.println("Invio all");
         /* Convert float to char[] */
-        char b[sizeof(float)];
-        memcpy(b, &currentDistance, sizeof(currentDistance));
-        mqtt->publish("SimAleD", b);
+        char buff[6];
+        dtostrf(currentDistance, 4, 2, buff);
+        Serial.println(buff);
+        String(currentDistance);
+        mqtt->publish("SimAleD", buff);
         this->setup();
     }
     
