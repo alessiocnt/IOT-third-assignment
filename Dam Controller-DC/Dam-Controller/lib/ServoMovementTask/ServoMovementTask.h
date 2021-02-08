@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "header.h"
+#include "main.h"
 #include "Task.h"
 #include "ServoMotor.h"
 
