@@ -1,17 +1,61 @@
 package damservice;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.util.Map;
+
+import com.sun.net.httpserver.HttpServer;
+
+import http.querymapper.QueryMapper;
 import io.vertx.mqtt.MqttClient;
 import mqtt.client.DSMqttClient;
 import mqtt.client.DSMqttClientImpl;
 
+
 public class DamService {
 
 	public static void main(String[] args) {
+		DsData data = new DsDataImpl();
+		mqttHandler(data);
+		
+        httpHandler(data);
+        
+        while(true) {
+        	try {
+        		if(data.getWaterLevel().get(data.getWaterLevel().size() - 1) != null) {
+            		System.out.println("YEEEET " + data.getWaterLevel().get(data.getWaterLevel().size() - 1));
+            	}
+        	} catch (Exception e) {
+				// TODO: handle exception
+			}
+        	try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	
+        }
+
+	}
+	
+	private static void mqttHandler(DsData data) {
 		DSMqttClient clientS = new DSMqttClientImpl();
 		DSMqttClient clientD = new DSMqttClientImpl();
 		
 		clientS.subscribe("SimAleS", r -> {
-			System.out.println("Stato:" + r.payload().toString());
+			switch (r.payload().toString()) {
+			case "normal":
+				data.setState(State.NORMAL);
+				break;
+			case "prealarm":
+				data.setState(State.PREALARM);
+			default:
+				data.setState(State.ALARM);
+				break;
+			}
+			System.out.println("Stato:" + data.getState().getValue());
 		});
 		clientD.subscribe("SimAleD", r -> {
 			System.out.println("Distanza:" + r.payload().toString());
@@ -42,7 +86,35 @@ public class DamService {
 		};
 		Thread thread = new Thread(r);
         thread.start();
-
+        
+	}
+	
+	public static void httpHandler(DsData data) {
+        HttpServer server;
+		try {
+			server = HttpServer.create(new InetSocketAddress(8000), 0);
+			server.createContext("/test", (t) -> {
+				String response = "This is the response ";
+				Map<String, String> m = QueryMapper.resolveQuery(t.getRequestURI().getQuery());
+				m.forEach((k, v) -> {
+					if(k.equals("water")) {
+						data.pushWaterLevel(Float.parseFloat(v));
+						System.out.println("YEE ");
+					} if (k.equals("b")) {
+						System.out.println("Merdeeeee " + v);
+					}
+				});
+	            t.sendResponseHeaders(200, response.length());
+	            OutputStream os = t.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();
+	        });
+	        server.setExecutor(null); // creates a default executor
+	        server.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
