@@ -7,26 +7,28 @@ import mqtt.client.DSMqttClientImpl;
 public class DamService {
 
 	public static void main(String[] args) {
-		DSMqttClient client = new DSMqttClientImpl();
+		DSMqttClient clientS = new DSMqttClientImpl();
+		DSMqttClient clientD = new DSMqttClientImpl();
 		
-		client.subscribe("SimAleS", r -> {
+		clientS.subscribe("SimAleS", r -> {
 			System.out.println("Stato:" + r.payload().toString());
 		});
-		client.subscribe("SimAleD", r -> {
-			System.out.print("Distanza: ");
-			System.out.println(r.payload().toString());
+		clientD.subscribe("SimAleD", r -> {
+			System.out.println("Distanza:" + r.payload().toString());
 		});
 		//client.publish("outTopic", "Asbregafioi");
 		
-		final MqttClient c = client.getClient();
+		final MqttClient cS = clientS.getClient();
+		final MqttClient cD = clientD.getClient();
 		
-        
         Runnable r = new Runnable() {
 			public void run() {
 				while (true) {
-					client.reconnect();
+					clientS.reconnect();
+					clientD.reconnect();
 					try {
-						c.ping();
+						cS.ping();
+						cD.ping();
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
