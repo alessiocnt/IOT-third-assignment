@@ -34,7 +34,7 @@ void PreAllarmModeTask::tick()
     if(currentDistance >= D1) 
     {
         Serial.println("Vado in norm");
-        mqtt->publish("SimAleS", "Normal");
+        mqtt->publish("SimAleS", "normal");
         this->setActive(false);
         blinkTask->setActive(false);
         led->switchOff();
@@ -44,7 +44,7 @@ void PreAllarmModeTask::tick()
     else if (currentDistance <= D2)
     {
         Serial.println("Vado in Allarme");
-        mqtt->publish("SimAleS", "Allarm");
+        mqtt->publish("SimAleS", "alarm");
         this->setActive(false);
         blinkTask->setActive(false);
         led->switchOn();
