@@ -13,14 +13,33 @@ public class DamService {
 			System.out.println("Stato:" + r.payload().toString());
 		});
 		client.subscribe("SimAleD", r -> {
-			System.out.println("Distanza:" + r.payload().toString());
+			System.out.print("Distanza: ");
+			System.out.println(r.payload().toString());
 		});
-		client.publish("outTopic", "Asbregafioi");
+		//client.publish("outTopic", "Asbregafioi");
 		
-		MqttClient c = client.getClient();
-		while(true) {
-			c.ping();
-		}
+		final MqttClient c = client.getClient();
+		
+        
+        Runnable r = new Runnable() {
+			public void run() {
+				while (true) {
+					client.reconnect();
+					try {
+						c.ping();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		Thread thread = new Thread(r);
+        thread.start();
 
 	}
 

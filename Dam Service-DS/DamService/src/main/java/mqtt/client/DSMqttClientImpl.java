@@ -25,7 +25,7 @@ public class DSMqttClientImpl implements DSMqttClient {
 		this.client.closeHandler(r -> this.reconnect());
 	}
 	
-	private void reconnect() {
+	public void reconnect() {
 		if(!this.client.isConnected()) {
 			this.client = MqttClient.create(this.vertx, options);
 			Future<MqttConnAckMessage> f = this.client.connect(1883, "broker.hivemq.com");

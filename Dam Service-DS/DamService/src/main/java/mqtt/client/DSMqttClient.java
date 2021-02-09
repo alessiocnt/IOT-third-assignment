@@ -22,4 +22,6 @@ public interface DSMqttClient {
 	public void publish(String topic, String value);
 	
 	public MqttClient getClient();
+	
+	public void reconnect();
 }
