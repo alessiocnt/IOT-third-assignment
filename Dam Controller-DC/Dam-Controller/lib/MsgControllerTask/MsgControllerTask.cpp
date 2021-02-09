@@ -51,7 +51,7 @@ void MsgControllerTask::msgInterpreter(String msg) {
     Serial.println(pre);
     Serial.println(suff);
     if(pre.equalsIgnoreCase("state")) {
-        if(suff.equalsIgnoreCase("normal")) {
+        if(suff.equalsIgnoreCase("normal") || suff.equalsIgnoreCase("prealarm")) {
             Serial.println("NormalState");
             this->state = NORMAL;
         } else {
