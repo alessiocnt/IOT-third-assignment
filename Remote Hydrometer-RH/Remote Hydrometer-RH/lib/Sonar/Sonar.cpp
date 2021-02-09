@@ -30,5 +30,6 @@ float Sonar::getDistance()
         return -1;
     }
     lastDistance = d;
+    Serial.println(d);
     return d;
 }

@@ -7,6 +7,9 @@ import java.util.Map;
 
 import com.sun.net.httpserver.HttpServer;
 
+import damservice.data.DsData;
+import damservice.data.DsDataImpl;
+import damservice.msg.DsMsgSenderImpl;
 import http.querymapper.QueryMapper;
 import io.vertx.mqtt.MqttClient;
 import mqtt.client.DSMqttClient;
@@ -16,7 +19,7 @@ import mqtt.client.DSMqttClientImpl;
 public class DamService {
 
 	public static void main(String[] args) {
-		DsData data = new DsDataImpl();
+		DsData data = new DsDataImpl(new DsMsgSenderImpl("COM3", null, 8000, null, 8000));
 		mqttHandler(data);
 		
         httpHandler(data);
@@ -51,6 +54,7 @@ public class DamService {
 				break;
 			case "prealarm":
 				data.setState(State.PREALARM);
+				break;
 			default:
 				data.setState(State.ALARM);
 				break;

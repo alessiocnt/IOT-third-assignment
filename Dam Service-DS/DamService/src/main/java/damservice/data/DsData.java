@@ -1,6 +1,9 @@
-package damservice;
+package damservice.data;
 
 import java.util.List;
+
+import damservice.Mode;
+import damservice.State;
 
 public interface DsData {
 	

@@ -3,7 +3,7 @@
 
 #define D1 1
 #define D2 0.4
-#define STD_PERIOD 500
+#define STD_PERIOD 1000
 #define BLINKING_PERIOD 250
 #define SCHEDULER_FREQ 250
 
