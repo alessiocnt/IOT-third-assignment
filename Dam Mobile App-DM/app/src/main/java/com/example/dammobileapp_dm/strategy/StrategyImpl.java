@@ -1,9 +1,15 @@
 package com.example.dammobileapp_dm.strategy;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 public class StrategyImpl implements Strategy {
 
@@ -14,6 +20,9 @@ public class StrategyImpl implements Strategy {
     private final Button btnGapDecrease;
     private final TextView textGap;
     private final Button btnGapIncrease;
+
+    private final RequestQueue queue;
+    private final String url = "http://192.168.1.106:8000";
 
     private String mode = "auto";
     private String state = "normal";
@@ -28,6 +37,7 @@ public class StrategyImpl implements Strategy {
         this.btnGapDecrease = btnGapDecrease;
         this.textGap = textGap;
         this.btnGapIncrease = btnGapIncrease;
+        this.queue = Volley.newRequestQueue(activity);
     }
 
     @Override
@@ -49,9 +59,9 @@ public class StrategyImpl implements Strategy {
         this.state = state;
         activity.runOnUiThread(() -> textState.setText(state));
         if (state.equals("alarm")) {
-            switchManual.setEnabled(true);
-            btnGapDecrease.setActivated(true);
-            btnGapIncrease.setActivated(true);
+            activity.runOnUiThread(() -> switchManual.setEnabled(true));
+        } else {
+            activity.runOnUiThread(() -> switchManual.setEnabled(false));
         }
     }
 
@@ -60,19 +70,37 @@ public class StrategyImpl implements Strategy {
         this.mode = mode;
         if (mode.equals("auto")) {
             activity.runOnUiThread(() -> {
-                switchManual.setChecked(false);
-                switchManual.setEnabled(false);
+                //switchManual.setChecked(false);
+                //switchManual.setEnabled(false);
                 btnGapDecrease.setEnabled(false);
                 btnGapIncrease.setEnabled(false);
             });
         } else {
             activity.runOnUiThread(() -> {
-                switchManual.setChecked(true);
+                //switchManual.setChecked(true);
                 switchManual.setEnabled(true);
-                btnGapDecrease.setActivated(true);
-                btnGapIncrease.setActivated(true);
+                btnGapDecrease.setEnabled(true);
+                btnGapIncrease.setEnabled(true);
             });
         }
+    }
+
+    private void sendMode() {
+        String url = this.url + "/setvalues?mode=" + mode;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> Log.i("Response", response), error -> {
+            Log.e("Error", "Error!");
+        });
+        queue.add(stringRequest);
+    }
+
+    private void sendGap() {
+        String url = this.url + "/setvalues?gap=" + gap;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> Log.i("Response", response), error -> {
+            Log.e("Error", "Error!");
+        });
+        queue.add(stringRequest);
     }
 
     @Override
@@ -82,6 +110,7 @@ public class StrategyImpl implements Strategy {
             gapInt += 5;
         }
         this.gap = "" + gapInt;
+        sendGap();
         activity.runOnUiThread(() -> textGap.setText(gap));
     }
 
@@ -92,18 +121,18 @@ public class StrategyImpl implements Strategy {
             gapInt -= 5;
         }
         this.gap = "" + gapInt;
+        sendGap();
         activity.runOnUiThread(() -> textGap.setText(gap));
     }
 
     @Override
     public void changeMode() {
         if (mode.equals("auto")){
-            mode = "manual";
-            activity.runOnUiThread(() -> switchManual.setChecked(true));
+            setMode("manual");
         } else {
-            mode = "auto";
-            activity.runOnUiThread(() -> switchManual.setChecked(false));
+            setMode("auto");
         }
+        sendMode();
     }
 
     @Override
