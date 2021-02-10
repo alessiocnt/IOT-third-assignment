@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         this.bgTask = new BgTask(strategy);
-        new Thread(bgTask).start();
+        bgTask.execute();
     }
 
     @Override

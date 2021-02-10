@@ -19,7 +19,7 @@ import mqtt.client.DSMqttClientImpl;
 public class DamService {
 
 	public static void main(String[] args) {
-		DsData data = new DsDataImpl(new DsMsgSenderImpl("ACM0" /* COM3  ttyACM0 */, null, 8000, null, 8000));
+		DsData data = new DsDataImpl(/*new DsMsgSenderImpl("ACM0" COM3  ttyACM0 , null, 8000, null, 8000)*/);
 		mqttHandler(data);
 		
         httpHandler(data);

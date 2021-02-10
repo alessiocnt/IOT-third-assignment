@@ -13,22 +13,22 @@ public class DsDataImpl implements DsData {
 	private State state;
 	private Mode mode;
 	private int gapLevel;
-	private DsMsgSender msgSender;
+	//private DsMsgSender msgSender;
 	
-	public DsDataImpl(DsMsgSender msgSender) {
-		this.msgSender = msgSender;
+	public DsDataImpl(/*DsMsgSender msgSender*/) {
+		//this.msgSender = msgSender;
 	}
 	
 	@Override
 	public void pushWaterLevel(float level) {
 		this.waterLevel.add(level);
-		this.msgSender.sendWaterLevel(level);
+//		this.msgSender.sendWaterLevel(level);
 	}
 
 	@Override
 	public void setState(State state) {
 		this.state = state;
-		this.msgSender.sendState(state);
+//		this.msgSender.sendState(state);
 		if(this.mode == Mode.MANUAL && this.state != State.ALARM) {
 			this.setMode(Mode.AUTO);
 		}
@@ -37,13 +37,13 @@ public class DsDataImpl implements DsData {
 	@Override
 	public void setMode(Mode mode) {
 		this.mode = mode;
-		this.msgSender.sendMode(mode);
+//		this.msgSender.sendMode(mode);
 	}
 
 	@Override
 	public void setGapLevel(int gap) {
 		this.gapLevel = gap;
-		this.msgSender.sendDamGap(gap);
+//		this.msgSender.sendDamGap(gap);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.example.dammobileapp_dm.bgtask;
 
+import android.os.AsyncTask;
 import android.widget.TextView;
 
 import com.example.dammobileapp_dm.netutils.Http;
@@ -9,17 +10,17 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Locale;
 
-public class BgTask implements Runnable{
+public class BgTask extends AsyncTask {
 
     private Strategy strategy;
-    private final String url = "https://192.168.1.106:8000/test?water=13";
+    private final String url = "http://192.168.1.157:8000/test?water=1";  // http://192.168.1.157:8000/test?water=1  https://192.168.1.106:8000/test?water=13
 
     public BgTask(final Strategy strategy){
         this.strategy = strategy;
     }
 
     @Override
-    public void run() {
+    public Object doInBackground(Object[] objects) {
         while(true){
             try {
                 Thread.sleep(100);
