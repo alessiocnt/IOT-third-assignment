@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        this.bgTask = new BgTask(strategy);
+        this.bgTask = new BgTask(strategy, this);
         bgTask.execute();
     }
 
