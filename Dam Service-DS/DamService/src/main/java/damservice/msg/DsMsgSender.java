@@ -8,7 +8,5 @@ public interface DsMsgSender {
 	
 	public void sendMode(Mode mode);
 	
-	public void sendWaterLevel(float level);
-	
 	public void sendDamGap(int gap);
 }
