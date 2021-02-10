@@ -10,13 +10,14 @@ import damservice.msg.DsMsgSender;
 public class DsDataImpl implements DsData {
 	
 	private List<Float> waterLevel = new ArrayList<>();
-	private State state;
-	private Mode mode;
-	private int gapLevel;
+	private State state = State.ALARM;
+	private Mode mode = Mode.AUTO;
+	private int gapLevel = 0;
 	//private DsMsgSender msgSender;
 	
 	public DsDataImpl(/*DsMsgSender msgSender*/) {
 		//this.msgSender = msgSender;
+		waterLevel.add((float) 1.0);
 	}
 	
 	@Override

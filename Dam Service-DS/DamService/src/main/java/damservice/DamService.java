@@ -1,16 +1,7 @@
 package damservice;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.util.Map;
-
-import com.sun.net.httpserver.HttpServer;
-
 import damservice.data.DsData;
 import damservice.data.DsDataImpl;
-import damservice.msg.DsMsgSenderImpl;
-import http.querymapper.QueryMapper;
 import io.vertx.mqtt.MqttClient;
 import mqtt.client.DSMqttClient;
 import mqtt.client.DSMqttClientImpl;
@@ -22,7 +13,8 @@ public class DamService {
 		DsData data = new DsDataImpl(/*new DsMsgSenderImpl("ACM0" COM3  ttyACM0 , null, 8000, null, 8000)*/);
 		mqttHandler(data);
 		
-        httpHandler(data);
+        HttpHandler httpServer = new HttpHandler(data);
+        httpServer.start();
         
         while(true) {
         	try {
@@ -62,6 +54,7 @@ public class DamService {
 			System.out.println("Stato:" + data.getState().getValue());
 		});
 		clientD.subscribe("SimAleD", r -> {
+			data.pushWaterLevel(Float.valueOf(r.payload().toString()));
 			System.out.println("Distanza:" + r.payload().toString());
 		});
 		//client.publish("outTopic", "Asbregafioi");
@@ -90,35 +83,7 @@ public class DamService {
 		};
 		Thread thread = new Thread(r);
         thread.start();
-        
 	}
 	
-	public static void httpHandler(DsData data) {
-        HttpServer server;
-		try {
-			server = HttpServer.create(new InetSocketAddress(8000), 0);
-			server.createContext("/test", (t) -> {
-				String response = "This is the response ";
-				Map<String, String> m = QueryMapper.resolveQuery(t.getRequestURI().getQuery());
-				m.forEach((k, v) -> {
-					if(k.equals("water")) {
-						data.pushWaterLevel(Float.parseFloat(v));
-						System.out.println("YEE ");
-					} if (k.equals("b")) {
-						System.out.println("Merdeeeee " + v);
-					}
-				});
-	            t.sendResponseHeaders(200, response.length());
-	            OutputStream os = t.getResponseBody();
-	            os.write(response.getBytes());
-	            os.close();
-	        });
-	        server.setExecutor(null); // creates a default executor
-	        server.start();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 }
