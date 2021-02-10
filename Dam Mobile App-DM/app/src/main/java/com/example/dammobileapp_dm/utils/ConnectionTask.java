@@ -2,7 +2,7 @@ package com.example.dammobileapp_dm.utils;
 
 import android.os.AsyncTask;
 
-abstract class ConnectionTask extends AsyncTask<Void, Void, Integer> {
+public abstract class ConnectionTask extends AsyncTask<Void, Void, Integer> {
     static final int CONNECTION_DONE = 1;
     static final int CONNECTION_CANCELED = 2;
 
