@@ -24,6 +24,7 @@ public class Http {
                     return new HttpResponse(connection.getResponseCode(), connection.getInputStream());
 
                 } catch (IOException e) {
+                    e.printStackTrace();
                     return null;
                 }
             }

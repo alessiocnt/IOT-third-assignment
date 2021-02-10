@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
+import com.example.dammobileapp_dm.bgtask.BgTask;
+import com.example.dammobileapp_dm.strategy.Strategy;
+import com.example.dammobileapp_dm.strategy.StrategyImpl;
 import com.example.dammobileapp_dm.utils.BluetoothChannel;
 import com.example.dammobileapp_dm.utils.BluetoothDeviceNotFound;
 import com.example.dammobileapp_dm.utils.BluetoothUtils;
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textGap;
     private Button btnGapIncrease;
 
+    private Strategy strategy;
+    private BgTask bgTask;
+
     private BluetoothChannel btChannel;
 
     @Override
@@ -46,6 +52,18 @@ public class MainActivity extends AppCompatActivity {
         setupBluetooth();
         setupWifi();
         initUI();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        this.bgTask = new BgTask(strategy);
+        new Thread(bgTask).start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -66,14 +84,16 @@ public class MainActivity extends AppCompatActivity {
         this.btnGapDecrease = findViewById(R.id.btnGapDecrease);
         this.textGap = findViewById(R.id.textGap);
         this.btnGapIncrease = findViewById(R.id.btnGapIncrease);
+
+        this.strategy = new StrategyImpl(this, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
     }
 
     private void setupWifi() {
         final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork;
+         NetworkInfo activeNetwork;
         do {
             activeNetwork = Objects.requireNonNull(cm).getActiveNetworkInfo();
-        } while (!activeNetwork.isConnected());
+        } while (!activeNetwork.isConnectedOrConnecting());
     }
 
     private void setupBluetooth() {
