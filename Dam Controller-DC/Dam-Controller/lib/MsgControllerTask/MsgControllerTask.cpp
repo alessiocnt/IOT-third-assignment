@@ -33,7 +33,7 @@ void MsgControllerTask::tick()
         break;
     }
     /* reading data from BT to Serial */
-    if (btChannel.available()) {
+    if (btChannel.available() && this->state == ALARM) {
         msgInterpreter(btChannel.readString());
         
     } else if (Serial.available()) {
@@ -63,7 +63,7 @@ void MsgControllerTask::msgInterpreter(String msg) {
             Serial.println("Manual mode");
             this->state = MANUAL;
         }
-    } else if(pre.equalsIgnoreCase("level")) {
+    } else if(pre.equalsIgnoreCase("gap")) {
         int open = suff.toInt();
         servoMovementTask->setPosition(map(open, 0, 100, 0, 180));
     }
