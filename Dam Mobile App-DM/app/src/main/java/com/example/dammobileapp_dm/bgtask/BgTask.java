@@ -43,14 +43,56 @@ public class BgTask extends AsyncTask {
              * la view.
              **/
             RequestQueue queue = Volley.newRequestQueue(this.context);
-            String url = "http://192.168.1.106:8000/test?water=1";
-
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    response -> strategy.test(response), error -> {
-                        strategy.test("That didn't work!");
-                    });
-            queue.add(stringRequest);
+            getGap(queue);
+            getLevel(queue);
+            getState(queue);
+            getMode(queue);
+            //test(queue);
         }
     }
-    
+
+    private void test(RequestQueue queue) {
+        String url = "http://192.168.1.106:8000/test?water=1";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> strategy.test(response), error -> {
+            strategy.test("Error");
+        });
+        queue.add(stringRequest);
+    }
+
+    private void getGap(RequestQueue queue) {
+        String url = this.url + "/gap";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> strategy.setGap(response), error -> {
+            strategy.test("Error");
+        });
+        queue.add(stringRequest);
+    }
+
+    private void getLevel(RequestQueue queue) {
+        String url = this.url + "/level";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> strategy.setWaterLevel(response), error -> {
+            strategy.test("Error!");
+        });
+        queue.add(stringRequest);
+    }
+
+    private void getState(RequestQueue queue) {
+        String url = this.url + "/state";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> strategy.setState(response), error -> {
+            strategy.test("Error!");
+        });
+        queue.add(stringRequest);
+    }
+
+    private void getMode(RequestQueue queue) {
+        String url = this.url + "/mode";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> strategy.setMode(response), error -> {
+            strategy.test("Error!");
+        });
+        queue.add(stringRequest);
+    }
 }
