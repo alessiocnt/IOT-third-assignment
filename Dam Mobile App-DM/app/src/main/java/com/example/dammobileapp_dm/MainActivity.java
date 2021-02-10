@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+
 import org.json.JSONException;
 import org.w3c.dom.Text;
 
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textGap;
     private Button btnGapIncrease;
 
+    private BluetoothChannel btChannel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupWifi() {
-
+        final ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork;
+        do {
+            activeNetwork = Objects.requireNonNull(cm).getActiveNetworkInfo();
+        } while (!activeNetwork.isConnected());
     }
 }
