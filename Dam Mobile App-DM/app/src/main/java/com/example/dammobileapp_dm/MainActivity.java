@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textGap;
     private Button btnGapIncrease;
 
-    private BluetoothChannel btChannel;
+    //private BluetoothChannel btChannel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
