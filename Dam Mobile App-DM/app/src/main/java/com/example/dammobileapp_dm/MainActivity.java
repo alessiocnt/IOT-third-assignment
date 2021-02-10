@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setupWifi();
         initUI();
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -85,7 +85,23 @@ public class MainActivity extends AppCompatActivity {
         this.textGap = findViewById(R.id.textGap);
         this.btnGapIncrease = findViewById(R.id.btnGapIncrease);
 
+        btnGapDecrease.setEnabled(false);
+        btnGapIncrease.setEnabled(false);
+        switchManual.setEnabled(false);
+
         this.strategy = new StrategyImpl(this, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
+
+        btnGapDecrease.setOnClickListener(v -> {
+            strategy.decreaseGap();
+        });
+
+        btnGapIncrease.setOnClickListener(v -> {
+            strategy.increaseGap();
+        });
+
+        switchManual.setOnClickListener (v -> {
+            strategy.changeMode();
+        });
     }
 
     private void setupWifi() {
