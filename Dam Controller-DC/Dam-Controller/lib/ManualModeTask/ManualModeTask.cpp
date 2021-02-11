@@ -7,6 +7,7 @@ void ManualModeTask::init(int period) {
 }
 
 void ManualModeTask::tick() {
+    //Serial.println("Manual");
     blinkTask->setActive(false);
     led1->switchOn();
 }

@@ -9,5 +9,6 @@ void AlarmStateTask::init(int period) {
 }
 
 void AlarmStateTask::tick() {
+    //Serial.println("Alarm");
     blinkTask->setActive(true);
 }
