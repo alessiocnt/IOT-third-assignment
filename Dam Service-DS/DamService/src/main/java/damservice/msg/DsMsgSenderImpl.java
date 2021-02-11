@@ -31,18 +31,36 @@ public class DsMsgSenderImpl implements DsMsgSender {
 	
 	@Override
 	public void sendState(State state) {
-		arduinoCh.sendMsg("state:" + state);
+		int val;
+		if (state == State.ALARM) {
+			val = 1;
+		} else {
+			val = 0;
+		}
+		
+		arduinoCh.sendMsg("state:" + val);
 	}
 
 	@Override
 	public void sendMode(Mode mode) {
-		arduinoCh.sendMsg("mode:" + mode);
+		int val;
+		if(mode == Mode.MANUAL) {
+			val = 1;
+		} else {
+			val = 0;
+		}
+		arduinoCh.sendMsg("mode:" + val);
 	}
 
 
 	@Override
 	public void sendDamGap(int gap) {
 		arduinoCh.sendMsg("gap:" + gap);
+	}
+
+	@Override
+	public SerialCommChannel getCh() {
+		return this.arduinoCh;
 	}
 
 }
