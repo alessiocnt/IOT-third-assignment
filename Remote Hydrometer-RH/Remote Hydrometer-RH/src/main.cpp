@@ -16,8 +16,8 @@
 #include "PreAllarmModeTask.h"
 #include "BlinkTask.h" */
 //#include "AllarmModeTask.h"
-const char* ssid     = "TIM-18270469-rep";         // TIM-18270469-rep  android_ale  The SSID (name) of the Wi-Fi network you want to connect to
-const char* password = "ceredi63";            // ceredi63           alessio3     The password of the Wi-Fi network
+const char* ssid     = "android_ale";         // TIM-18270469-rep  android_ale  The SSID (name) of the Wi-Fi network you want to connect to
+const char* password = "alessio3";            // ceredi63           alessio3     The password of the Wi-Fi network
 Mqtt *mqtt = new Mqtt();
 
 BlinkTask *blinkTask;

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.example.dammobileapp_dm.netutils.Http;
 import com.example.dammobileapp_dm.strategy.Strategy;
+import com.example.dammobileapp_dm.utils.Config;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -22,7 +23,7 @@ public class BgTask extends AsyncTask {
 
     private Strategy strategy;
     private Context context;
-    private final String url = "http://192.168.1.106:8000/";  // http://192.168.1.157:8000/test?water=1  https://192.168.1.106:8000/test?water=13
+    //private final String url = "http://192.168.1.106:8000";  // http://192.168.1.157:8000/test?water=1  https://192.168.1.106:8000/test?water=13
 
     public BgTask(final Strategy strategy, final Context context){
         this.strategy = strategy;
@@ -33,7 +34,7 @@ public class BgTask extends AsyncTask {
     public Object doInBackground(Object[] objects) {
         while(true) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -43,11 +44,11 @@ public class BgTask extends AsyncTask {
              * la view.
              **/
             RequestQueue queue = Volley.newRequestQueue(this.context);
-            /* getGap(queue);
+            getGap(queue);
             getLevel(queue);
             getState(queue);
-            getMode(queue); */
-            test(queue);
+            getMode(queue);
+            // test(queue);
         }
     }
 
@@ -61,7 +62,7 @@ public class BgTask extends AsyncTask {
     }
 
     private void getGap(RequestQueue queue) {
-        String url = this.url + "/gap";
+        String url = Config.URL + "/gap";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> strategy.setGap(response), error -> {
             strategy.test("Error");
@@ -70,7 +71,7 @@ public class BgTask extends AsyncTask {
     }
 
     private void getLevel(RequestQueue queue) {
-        String url = this.url + "/level";
+        String url = Config.URL + "/level";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> strategy.setWaterLevel(response), error -> {
             strategy.test("Error!");
@@ -79,7 +80,7 @@ public class BgTask extends AsyncTask {
     }
 
     private void getState(RequestQueue queue) {
-        String url = this.url + "/state";
+        String url = Config.URL + "/state";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> strategy.setState(response), error -> {
             strategy.test("Error!");
@@ -88,7 +89,7 @@ public class BgTask extends AsyncTask {
     }
 
     private void getMode(RequestQueue queue) {
-        String url = this.url + "/mode";
+        String url = Config.URL + "/mode";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> strategy.setMode(response), error -> {
             strategy.test("Error!");

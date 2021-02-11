@@ -35,6 +35,9 @@ void AllarmModeTask::tick()
     {
         Serial.println("Vado in Norm");
         mqtt->publish("SimAleS", "normal");
+        char buff[6];
+        dtostrf(currentDistance, 4, 2, buff);
+        mqtt->publish("SimAleD", buff);
         this->setActive(false);
         led->switchOff();
         normalModeTask->setup();
@@ -44,6 +47,9 @@ void AllarmModeTask::tick()
     {
         Serial.println("Vado in PreAll");
         mqtt->publish("SimAleS", "prealarm");
+        char buff[6];
+        dtostrf(currentDistance, 4, 2, buff);
+        mqtt->publish("SimAleD", buff);
         this->setActive(false);
         blinkTask->init(BLINKING_PERIOD, led, BLINK_FOREVER);
         blinkTask->setActive(true);

@@ -34,9 +34,7 @@ void ServoMovementTask::tick()
     }
     if(abs(nextPosition - position) < DELTA) {
         position = nextPosition;
-        return;
-    }
-    if (position > nextPosition)
+    } else if (position > nextPosition)
     {
         position -= DELTA;
     }

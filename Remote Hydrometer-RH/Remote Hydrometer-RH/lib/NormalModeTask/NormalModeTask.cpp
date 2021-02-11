@@ -26,6 +26,10 @@ void NormalModeTask::tick()
         {
             Serial.println("Vado in pre");
             mqtt->publish("SimAleS", "prealarm");
+            /* Convert float to char[] */
+            char buff[6];
+            dtostrf(currentDistance, 4, 2, buff);
+            mqtt->publish("SimAleD", buff);
             this->setActive(false);
             blinkTask->init(BLINKING_PERIOD, led, BLINK_FOREVER);
             blinkTask->setActive(true);
@@ -37,6 +41,9 @@ void NormalModeTask::tick()
             this->setActive(false);
             Serial.println("Vado in allarme");
             mqtt->publish("SimAleS", "alarm");
+            char buff[6];
+            dtostrf(currentDistance, 4, 2, buff);
+            mqtt->publish("SimAleD", buff);
             led->switchOn();
             allarmModeTask->setup();
             allarmModeTask->setActive(true);

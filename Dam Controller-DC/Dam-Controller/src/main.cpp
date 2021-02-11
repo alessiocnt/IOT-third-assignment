@@ -52,6 +52,7 @@ void setupTasks()
     scheduler.addTask(servoMovementTask);
     servoMovementTask->setActive(true);
     blinkTask->init(MCD * 5, led1, BLINK_FOREVER);
+    blinkTask->setActive(false);
     scheduler.addTask(blinkTask);
     normalStateTask->init(MCD);
     scheduler.addTask(normalStateTask);

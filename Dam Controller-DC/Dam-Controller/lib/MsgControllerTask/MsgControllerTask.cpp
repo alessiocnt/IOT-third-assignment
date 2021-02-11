@@ -33,7 +33,7 @@ void MsgControllerTask::tick()
         break;
     }
     /* reading data from BT to Serial */
-    if (btChannel.available()) {
+    if (btChannel.available() && (this->state == ALARM || this->state == MANUAL)) {
         msgInterpreter(btChannel.readString());
         
     } else if (Serial.available()) {
@@ -44,14 +44,14 @@ void MsgControllerTask::tick()
 void MsgControllerTask::msgInterpreter(String msg) {
     String pre;
     String suff;
-    msg.remove(msg.length() - 1);
+    //msg.remove(msg.length() - 1);
     pre = msg.substring(0, msg.indexOf(':'));
     suff = msg.substring(msg.indexOf(':') + 1);
     Serial.println(msg);
     Serial.println(pre);
     Serial.println(suff);
     if(pre.equalsIgnoreCase("state")) {
-        if(suff.equalsIgnoreCase("normal") || suff.equalsIgnoreCase("prealarm")) {
+        if(suff.equalsIgnoreCase("normal\n") || suff.equalsIgnoreCase("prealarm\n")) {
             Serial.println("NormalState");
             this->state = NORMAL;
         } else {
@@ -59,11 +59,11 @@ void MsgControllerTask::msgInterpreter(String msg) {
             this->state = ALARM;
         }
     } else if(pre.equalsIgnoreCase("mode")) {
-        if(suff.equalsIgnoreCase("manual")) {
+        if(suff.equalsIgnoreCase("manual\n")) {
             Serial.println("Manual mode");
             this->state = MANUAL;
         }
-    } else if(pre.equalsIgnoreCase("level")) {
+    } else if(pre.equalsIgnoreCase("gap")) {
         int open = suff.toInt();
         servoMovementTask->setPosition(map(open, 0, 100, 0, 180));
     }
