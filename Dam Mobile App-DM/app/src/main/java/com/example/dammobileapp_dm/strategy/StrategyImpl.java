@@ -26,7 +26,7 @@ public class StrategyImpl implements Strategy {
     private final Button btnGapIncrease;
 
     private final RequestQueue queue;
-    private final String url = "http://192.168.1.106:8000";
+    private final String url = "http://192.168.1.48:8000";
 
     private String mode = "auto";
     private String state = "normal";

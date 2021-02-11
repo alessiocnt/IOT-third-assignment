@@ -7,9 +7,6 @@
 #include "main.h"
 #include "SoftwareSerial.h"
 
-#define DELTA 10
-#define INIT_DELAY 15
-
 class MsgControllerTask : public Task
 {
 private:

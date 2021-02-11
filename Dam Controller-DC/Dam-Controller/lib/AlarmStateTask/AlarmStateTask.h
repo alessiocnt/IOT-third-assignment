@@ -6,9 +6,6 @@
 #include "header.h"
 #include "main.h"
 
-#define DELTA 10
-#define INIT_DELAY 15
-
 class AlarmStateTask : public Task
 {
 public:

@@ -6,7 +6,7 @@
 #include "Task.h"
 #include "main.h"
 
-#define DELTA 10
+#define DELTA 5
 #define INIT_DELAY 15
 
 class NormalStateTask : public Task
