@@ -12,9 +12,12 @@ class MsgControllerTask : public Task
 private:
     enum {
         NORMAL,
-        ALARM,
-        MANUAL
+        ALARM
     } state;
+    enum {
+        MANUAL,
+        AUTO
+    } mode;
     void msgInterpreter(String msg);
 public:
     MsgControllerTask();
