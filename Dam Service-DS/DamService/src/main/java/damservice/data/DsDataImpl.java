@@ -72,8 +72,10 @@ public class DsDataImpl implements DsData {
 
 	@Override
 	public void setGapLevel(int gap) {
+		System.out.println("Setting gap to " + gap);
 		this.gapLevel = gap;
 		this.msgSender.sendDamGap(gap);
+		System.out.println("Setted");
 	}
 
 	@Override

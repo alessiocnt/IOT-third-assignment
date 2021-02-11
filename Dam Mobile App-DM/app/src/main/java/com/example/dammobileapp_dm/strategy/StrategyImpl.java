@@ -11,6 +11,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dammobileapp_dm.utils.BluetoothChannel;
+import com.example.dammobileapp_dm.utils.Config;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,7 +27,7 @@ public class StrategyImpl implements Strategy {
     private final Button btnGapIncrease;
 
     private final RequestQueue queue;
-    private final String url = "http://192.168.1.48:8000";
+    //private final String url = "http://192.168.1.106:8000";
 
     private String mode = "auto";
     private String state = "normal";
@@ -97,7 +98,7 @@ public class StrategyImpl implements Strategy {
 
     private void sendMode() {
         // send via http to backend
-        String url = this.url + "/setvalues?mode=" + mode;
+        String url = Config.URL + "/setvalues?mode=" + mode;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> Log.i("Response", response), error -> {
             Log.e("Error", "Error!");
@@ -110,7 +111,7 @@ public class StrategyImpl implements Strategy {
 
     private void sendGap() {
         // send via http to backend
-        String url = this.url + "/setvalues?gap=" + gap;
+        String url = Config.URL + "/setvalues?gap=" + gap;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> Log.i("Response", response), error -> {
             Log.e("Error", "Error!");
