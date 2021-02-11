@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         btnGapIncrease.setEnabled(false);
         switchManual.setEnabled(false);
 
-        this.strategy = new StrategyImpl(this, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
+        this.strategy = new StrategyImpl(this, btChannel, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
 
         btnGapDecrease.setOnClickListener(v -> {
             strategy.decreaseGap();

@@ -10,10 +10,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.dammobileapp_dm.utils.BluetoothChannel;
 
 public class StrategyImpl implements Strategy {
 
     private final Activity activity;
+    private final BluetoothChannel btChannel;
     private final TextView textState;
     private final Switch switchManual;
     private final TextView textLevel;
@@ -29,8 +31,9 @@ public class StrategyImpl implements Strategy {
     private String waterLevel = "300";
     private String gap = "0";
 
-    public StrategyImpl(final Activity activity, final TextView textState, final Switch switchManual, final TextView textLevel, final Button btnGapDecrease, final TextView textGap, final Button btnGapIncrease){
+    public StrategyImpl(final Activity activity, final BluetoothChannel btChannel, final TextView textState, final Switch switchManual, final TextView textLevel, final Button btnGapDecrease, final TextView textGap, final Button btnGapIncrease){
         this.activity = activity;
+        this.btChannel = btChannel;
         this.textState = textState;
         this.switchManual = switchManual;
         this.textLevel = textLevel;
@@ -86,21 +89,29 @@ public class StrategyImpl implements Strategy {
     }
 
     private void sendMode() {
+        // send via http to backend
         String url = this.url + "/setvalues?mode=" + mode;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> Log.i("Response", response), error -> {
             Log.e("Error", "Error!");
         });
         queue.add(stringRequest);
+        // send via bluetooth to arduino
+        String message = "mode:" + mode;
+        btChannel.sendMessage(message);
     }
 
     private void sendGap() {
+        // send via http to backend
         String url = this.url + "/setvalues?gap=" + gap;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> Log.i("Response", response), error -> {
             Log.e("Error", "Error!");
         });
         queue.add(stringRequest);
+        // send via bluetooth to arduino
+        String message = "gap:" + gap;
+        btChannel.sendMessage(message);
     }
 
     @Override
