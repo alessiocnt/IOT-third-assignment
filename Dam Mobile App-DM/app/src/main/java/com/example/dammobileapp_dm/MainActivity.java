@@ -2,6 +2,7 @@ package com.example.dammobileapp_dm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnGapDecrease;
     private TextView textGap;
     private Button btnGapIncrease;
-
+    private Activity myActivity;
     private Strategy strategy;
     private BgTask bgTask;
 
@@ -49,16 +50,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.myActivity = this;
+        initUI();
         setupBluetooth();
         setupWifi();
-        initUI();
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        this.bgTask = new BgTask(strategy, this);
-        bgTask.execute();
+        //this.bgTask = new BgTask(strategy, this);
+        //bgTask.execute();
     }
 
     @Override
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        btChannel.close();
+//        btChannel.close();
     }
 
     private void initUI() {
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         btnGapIncrease.setEnabled(false);
         switchManual.setEnabled(false);
 
-        this.strategy = new StrategyImpl(this, btChannel, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
+        //this.strategy = new StrategyImpl(this, btChannel, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
 
         btnGapDecrease.setOnClickListener(v -> {
             strategy.decreaseGap();
@@ -132,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConnectionActive(final BluetoothChannel channel) {
                 btChannel = channel;
+                strategy = new StrategyImpl(myActivity, btChannel, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
+                bgTask = new BgTask(strategy, myActivity);
+                bgTask.execute();
                 btChannel.registerListener(new RealBluetoothChannel.Listener() {
                     @Override
                     public void onMessageReceived(String receivedMessage) {

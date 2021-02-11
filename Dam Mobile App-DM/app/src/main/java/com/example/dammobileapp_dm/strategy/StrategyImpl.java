@@ -98,6 +98,11 @@ public class StrategyImpl implements Strategy {
         queue.add(stringRequest);
         // send via bluetooth to arduino
         String message = "mode:" + mode;
+        if (btChannel == null) {
+            Log.i("null", "aaaaaaaaaaaaaaa");
+        }else {
+            Log.i("notnull", "bbbbbbbbbbbbbbbb");
+        }
         btChannel.sendMessage(message);
     }
 
