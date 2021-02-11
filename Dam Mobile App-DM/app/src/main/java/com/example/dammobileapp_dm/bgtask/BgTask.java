@@ -33,7 +33,7 @@ public class BgTask extends AsyncTask {
     public Object doInBackground(Object[] objects) {
         while(true) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
