@@ -33,7 +33,7 @@ void MsgControllerTask::tick()
         break;
     }
     /* reading data from BT to Serial */
-    if (btChannel.available() && this->state == ALARM) {
+    if (btChannel.available() && (this->state == ALARM || this->state == MANUAL)) {
         msgInterpreter(btChannel.readString());
         
     } else if (Serial.available()) {
@@ -44,7 +44,7 @@ void MsgControllerTask::tick()
 void MsgControllerTask::msgInterpreter(String msg) {
     String pre;
     String suff;
-    msg.remove(msg.length() - 1);
+    //msg.remove(msg.length() - 1);
     pre = msg.substring(0, msg.indexOf(':'));
     suff = msg.substring(msg.indexOf(':') + 1);
     Serial.println(msg);
