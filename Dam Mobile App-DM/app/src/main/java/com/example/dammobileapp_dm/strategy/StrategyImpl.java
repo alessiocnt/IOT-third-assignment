@@ -12,6 +12,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.dammobileapp_dm.utils.BluetoothChannel;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class StrategyImpl implements Strategy {
 
     private final Activity activity;
@@ -47,20 +49,20 @@ public class StrategyImpl implements Strategy {
     public void setGap(String gap) {
         this.gap = gap;
         if (mode.equals("auto")) {
-            activity.runOnUiThread(() -> textGap.setText(gap));
+            activity.runOnUiThread(() -> textGap.setText("Dam gap: " + gap));
         }
     }
 
     @Override
     public void setWaterLevel(String waterLevel) {
         this.waterLevel = waterLevel;
-        activity.runOnUiThread(() -> textLevel.setText(waterLevel));
+        activity.runOnUiThread(() -> textLevel.setText("Water level: " + waterLevel));
     }
 
     @Override
     public void setState(String state) {
         this.state = state;
-        activity.runOnUiThread(() -> textState.setText(state));
+        activity.runOnUiThread(() -> textState.setText("State: " + StringUtils.capitalize(state)));
         if (state.equals("alarm")) {
             activity.runOnUiThread(() -> switchManual.setEnabled(true));
         } else {
@@ -70,17 +72,22 @@ public class StrategyImpl implements Strategy {
 
     @Override
     public void setMode(String mode) {
+        if (this.mode.equals(mode)){
+            return;
+        }
         this.mode = mode;
         if (mode.equals("auto")) {
             activity.runOnUiThread(() -> {
                 //switchManual.setChecked(false);
                 //switchManual.setEnabled(false);
+
                 btnGapDecrease.setEnabled(false);
                 btnGapIncrease.setEnabled(false);
             });
         } else {
             activity.runOnUiThread(() -> {
                 //switchManual.setChecked(true);
+
                 switchManual.setEnabled(true);
                 btnGapDecrease.setEnabled(true);
                 btnGapIncrease.setEnabled(true);
@@ -98,11 +105,6 @@ public class StrategyImpl implements Strategy {
         queue.add(stringRequest);
         // send via bluetooth to arduino
         String message = "mode:" + mode;
-        if (btChannel == null) {
-            Log.i("null", "aaaaaaaaaaaaaaa");
-        }else {
-            Log.i("notnull", "bbbbbbbbbbbbbbbb");
-        }
         btChannel.sendMessage(message);
     }
 
@@ -127,7 +129,7 @@ public class StrategyImpl implements Strategy {
         }
         this.gap = "" + gapInt;
         sendGap();
-        activity.runOnUiThread(() -> textGap.setText(gap));
+        activity.runOnUiThread(() -> textGap.setText("Dam gap: " + gap));
     }
 
     @Override
@@ -138,7 +140,7 @@ public class StrategyImpl implements Strategy {
         }
         this.gap = "" + gapInt;
         sendGap();
-        activity.runOnUiThread(() -> textGap.setText(gap));
+        activity.runOnUiThread(() -> textGap.setText("Dam gap: " + gap));
     }
 
     @Override
