@@ -9,6 +9,7 @@ import io.vertx.ext.web.client.WebClient;
 
 public class DataCollectorImpl implements DataCollector {
 
+	private static final int Nril = 20;
 	private final String host;
 	private final int port;
 	private final Vertx vertx;
@@ -16,7 +17,7 @@ public class DataCollectorImpl implements DataCollector {
 	
 	private List<Double> waterLevel = new ArrayList<>();
 	private List<Double> time = new ArrayList<>();
-	private double startTime = new Date().getTime() / 1000;
+	//private double startTime = new Date().getTime() / 1000;
 	private String state;
 	private int gap;
 	private String mode;
@@ -61,10 +62,23 @@ public class DataCollectorImpl implements DataCollector {
 		  .onSuccess(res -> { 
 			  //System.out.println("Getting - Received response with status code: " + res.statusCode());
 			  this.waterLevel.add(Double.parseDouble(res.bodyAsString()));
-			  this.time.add(((double) (new Date().getTime()/1000)) - this.startTime);
+			  
 		  })
 		  .onFailure(err ->
 		    System.out.println("Something went wrong " + err.getMessage()));
+		client
+		  .get(port, host, "/time")
+		  .send()
+		  .onSuccess(res -> { 
+			  System.out.println("Getting - Received response with status code: " + res.bodyAsString());
+			  this.time.add(Double.parseDouble(res.bodyAsString()));
+		  })
+		  .onFailure(err ->
+		    System.out.println("OMG Something went wrong " + err.toString()));
+		if(this.waterLevel.size() > 5 * Nril) {
+			this.waterLevel.remove(0);
+			this.time.remove(0);
+		}
 	}
 
 	public void CollectState() {
