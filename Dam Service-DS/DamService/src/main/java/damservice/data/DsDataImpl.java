@@ -1,6 +1,7 @@
 package damservice.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import damservice.Mode;
@@ -10,10 +11,12 @@ import damservice.msg.DsMsgSender;
 public class DsDataImpl implements DsData {
 	
 	private List<Float> waterLevel = new ArrayList<>();
+	private List<Double> time = new ArrayList<>();
 	private State state = State.ALARM;
 	private Mode mode = Mode.AUTO;
 	private int gapLevel = 0;
 	private DsMsgSender msgSender;
+	private double startTime = new Date().getTime() / 1000;
 	
 	// Norm->Pre 4m
 	// Pre->Ala 4.60m
@@ -24,13 +27,16 @@ public class DsDataImpl implements DsData {
 	
 	public DsDataImpl(DsMsgSender msgSender) {
 		this.msgSender = msgSender;
-		waterLevel.add((float) 3.0);
+		this.waterLevel.add((float) 3.0);
+		this.time.add((double) 0);
 	}
 	
 	@Override
 	public void pushWaterLevel(float level) {
 		this.waterLevel.add((float) (5 - level));
-		System.out.println("Livello: " + this.waterLevel.get(this.waterLevel.size() - 1));
+		this.time.add(((double) (new Date().getTime()/1000)) - this.startTime);
+		//System.out.println("Settato lvl " + this.waterLevel.get(this.waterLevel.size() - 1) + " all'ora " + this.time.get(this.waterLevel.size() - 1));
+		//System.out.println("Livello: " + this.waterLevel.get(this.waterLevel.size() - 1));
 		if(this.mode == Mode.AUTO) {
 			this.adjustGap();
 		}
@@ -72,15 +78,20 @@ public class DsDataImpl implements DsData {
 
 	@Override
 	public void setGapLevel(int gap) {
-		System.out.println("Setting gap to " + gap);
+		//System.out.println("Setting gap to " + gap);
 		this.gapLevel = gap;
 		this.msgSender.sendDamGap(gap);
-		System.out.println("Setted");
+		//System.out.println("Setted");
 	}
 
 	@Override
 	public List<Float> getWaterLevel() {
 		return this.waterLevel;
+	}
+	
+	@Override
+	public List<Double> getMeasurementsTimes() {
+		return this.time;
 	}
 
 	@Override

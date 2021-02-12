@@ -25,30 +25,23 @@ public class DsMsgSenderImpl implements DsMsgSender {
 				ok = false;
 				System.out.println("Connettere il DamController");
 			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
 	
 	@Override
-	public void sendState(State state) {
-//		int val;
-//		if (state == State.ALARM) {
-//			val = 1;
-//		} else {
-//			val = 0;
-//		}
-		
+	public void sendState(State state) {	
 		arduinoCh.sendMsg("state:" + state.getValue());
 	}
 
 	@Override
 	public void sendMode(Mode mode) {
-//		int val;
-//		if(mode == Mode.MANUAL) {
-//			val = 1;
-//		} else {
-//			val = 0;
-//		}
 		arduinoCh.sendMsg("mode:" + mode.getValue());
 	}
 
