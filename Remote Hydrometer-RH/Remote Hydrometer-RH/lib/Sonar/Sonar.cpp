@@ -26,10 +26,10 @@ float Sonar::getDistance()
     double d = tUS * soundSpeed / 1000.0 / 1000.0 / 2;
     if (d - lastDistance > 5)
     {
-        // Errore di lettura, scarto il valore ritornando -1
-        return 4.8;
+        // Errore di lettura
+        return 5;
     }
     lastDistance = d;
     Serial.println(d);
-    return d;
+    return d > 5 ? 5 : d;
 }
