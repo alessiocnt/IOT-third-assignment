@@ -56,6 +56,20 @@ public class DataCollectorImpl implements DataCollector {
 	}
 	
 	public void CollectWaterLevel() {
+		double t;
+		client
+		  .get(port, host, "/time")
+		  .send()
+		  .onSuccess(res -> { 
+			  //System.out.println("Getting - Received response with status code: " + res.bodyAsString());
+			  this.time.add(Double.parseDouble(res.bodyAsString()));
+		  })
+		  .onFailure(err ->
+		    System.out.println("Something went wrong " + err.toString()));
+		if(this.time.size() > 1 && this.time.get(this.time.size() - 1) == this.time.get(this.time.size() -2)) {
+			this.time.remove(this.time.size() - 1);
+			return;
+		}
 		client
 		  .get(port, host, "/level")
 		  .send()
@@ -66,16 +80,8 @@ public class DataCollectorImpl implements DataCollector {
 		  })
 		  .onFailure(err ->
 		    System.out.println("Something went wrong " + err.getMessage()));
-		client
-		  .get(port, host, "/time")
-		  .send()
-		  .onSuccess(res -> { 
-			  System.out.println("Getting - Received response with status code: " + res.bodyAsString());
-			  this.time.add(Double.parseDouble(res.bodyAsString()));
-		  })
-		  .onFailure(err ->
-		    System.out.println("OMG Something went wrong " + err.toString()));
-		if(this.waterLevel.size() > 5 * Nril) {
+		
+		if(this.waterLevel.size() > Nril) {
 			this.waterLevel.remove(0);
 			this.time.remove(0);
 		}
