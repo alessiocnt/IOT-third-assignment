@@ -19,23 +19,23 @@ public class DamService {
 		
         HttpHandler httpServer = new HttpHandler(data);
         httpServer.start();
-        SerialCommChannel ch = msgSender.getCh();
-        while(true) {
-        	if(ch.isMsgAvailable()) {
-        		try {
-					System.out.println(ch.receiveMsg());
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}
-        	try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }
+//        SerialCommChannel ch = msgSender.getCh();
+//        while(true) {
+//        	if(ch.isMsgAvailable()) {
+//        		try {
+//					System.out.println(ch.receiveMsg());
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//        	}
+//        	try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//        }
 	}
 	
 	private static void mqttHandler(DsData data) {

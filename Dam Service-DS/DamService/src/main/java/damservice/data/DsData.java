@@ -38,6 +38,12 @@ public interface DsData {
 	public List<Float> getWaterLevel();
 	
 	/**
+	 * 
+	 * @return a list of all time when level measurement where made, starting from system initialization 
+	 */
+	public List<Double> getMeasurementsTimes();
+	
+	/**
 	 *  
 	 * @return the current state
 	 */

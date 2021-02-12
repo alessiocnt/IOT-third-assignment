@@ -25,11 +25,14 @@ public class HttpHandler {
 		createModeContext();
 		createStateContext();
 		createLevelContext();
+		createTimeContext();
 		createGapContext();
 		createSetContext();
 		this.server.setExecutor(null); // creates a default executor
 	}
 	
+	
+
 	public void start() {
 		this.server.start();
 	}
@@ -61,6 +64,17 @@ public class HttpHandler {
 	private void createLevelContext() {
 		this.server.createContext("/level", (t) -> {
 			String response = String.valueOf(this.data.getWaterLevel().get(this.data.getWaterLevel().size() - 1));
+			t.sendResponseHeaders(200, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+		});
+	}
+	
+	private void createTimeContext() {
+		this.server.createContext("/time", (t) -> {
+			String response = String.valueOf(this.data.getMeasurementsTimes().get(this.data.getWaterLevel().size() - 1));
+			System.out.println("Sending time = " + response);
 			t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
