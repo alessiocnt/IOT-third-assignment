@@ -31,25 +31,25 @@ public class DsMsgSenderImpl implements DsMsgSender {
 	
 	@Override
 	public void sendState(State state) {
-		int val;
-		if (state == State.ALARM) {
-			val = 1;
-		} else {
-			val = 0;
-		}
+//		int val;
+//		if (state == State.ALARM) {
+//			val = 1;
+//		} else {
+//			val = 0;
+//		}
 		
-		arduinoCh.sendMsg("state:" + val);
+		arduinoCh.sendMsg("state:" + state.getValue());
 	}
 
 	@Override
 	public void sendMode(Mode mode) {
-		int val;
-		if(mode == Mode.MANUAL) {
-			val = 1;
-		} else {
-			val = 0;
-		}
-		arduinoCh.sendMsg("mode:" + val);
+//		int val;
+//		if(mode == Mode.MANUAL) {
+//			val = 1;
+//		} else {
+//			val = 0;
+//		}
+		arduinoCh.sendMsg("mode:" + mode.getValue());
 	}
 
 
