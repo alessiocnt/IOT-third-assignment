@@ -29,7 +29,7 @@ public class DsDataImpl implements DsData {
 	
 	@Override
 	public void pushWaterLevel(float level) {
-		this.waterLevel.add((float) (4.80 - level));
+		this.waterLevel.add((float) (5 - level));
 		System.out.println("Livello: " + this.waterLevel.get(this.waterLevel.size() - 1));
 		if(this.mode == Mode.AUTO) {
 			this.adjustGap();
@@ -49,7 +49,7 @@ public class DsDataImpl implements DsData {
 			P = 60;
 		} else if(L < L2 + (4 * DeltaL)) {
 			P = 80;
-		} else if (L < 4.80) {
+		} else if (L < 5) {
 			P = 100;
 		}
 		this.setGapLevel(P);
