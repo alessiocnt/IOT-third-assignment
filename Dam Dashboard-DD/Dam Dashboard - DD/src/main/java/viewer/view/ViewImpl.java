@@ -40,8 +40,8 @@ public class ViewImpl implements View {
 		this.chart = new XYChartBuilder().xAxisTitle("Time").yAxisTitle("Water Level").width(1200).height(400).build();
 		XYSeries series = this.chart.addSeries("Water Level", dataCollector.getTime(), dataCollector.getWaterLevel());
 	    series.setMarker(SeriesMarkers.NONE);
-	    chart.getStyler().setYAxisMin((double) -10);
-    	chart.getStyler().setYAxisMax((double) 10);
+	    chart.getStyler().setYAxisMin((double) 0);
+    	chart.getStyler().setYAxisMax((double) 5);
     	chart.getStyler().setLegendVisible(false);
 	}
 	
@@ -74,5 +74,6 @@ public class ViewImpl implements View {
 	@Override
 	public void render() {
 		this.logic.execute();
+		this.f.repaint();
 	}
 }

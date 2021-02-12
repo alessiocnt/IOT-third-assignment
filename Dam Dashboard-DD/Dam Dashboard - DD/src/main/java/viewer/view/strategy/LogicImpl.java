@@ -28,6 +28,7 @@ public class LogicImpl implements Logic{
 	public void execute() {
 		this.dataCollector.CollectState();
 		this.state = dataCollector.getState();
+		// System.out.println(this.state);
 		if(this.state.equals("normal")) {
 			doNormalState();
 		} else if(this.state.equals("prealarm")) {
@@ -41,7 +42,8 @@ public class LogicImpl implements Logic{
 		this.lblState.setText("State: " + this.state.toUpperCase());
 		this.lblMode.setVisible(false);
 		this.lblGap.setVisible(false);
-		chart.updateXYSeries("Water Level", null, fakeData, null);
+		chart.updateXYSeries("Water Level", fakeData, fakeData, null);
+		System.out.println("Settato normale");
 	}
 	
 	private void doPreAlarmState() {
@@ -50,6 +52,7 @@ public class LogicImpl implements Logic{
 		this.lblGap.setVisible(false);
 		this.dataCollector.CollectWaterLevel();
 		chart.updateXYSeries("Water Level", this.dataCollector.getTime(), this.dataCollector.getWaterLevel(), null);
+		System.out.println("Settato prealarm");
 	}
 	
 	private void doAlarmState() {
@@ -57,9 +60,12 @@ public class LogicImpl implements Logic{
 		this.dataCollector.CollectMode();
 		this.lblMode.setText("Mode: " + this.dataCollector.getMode().toUpperCase());
 		this.dataCollector.CollectGap();
-		this.lblGap.setText("State: " + this.dataCollector.getGap());
+		this.lblGap.setText("Gap: " + this.dataCollector.getGap());
 		this.dataCollector.CollectWaterLevel();
 		chart.updateXYSeries("Water Level", this.dataCollector.getTime(), this.dataCollector.getWaterLevel(), null);
+		this.lblMode.setVisible(true);
+		this.lblGap.setVisible(true);
+		System.out.println("Settato alarm");
 	}
 	
 	
