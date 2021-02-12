@@ -16,7 +16,7 @@ public class DataCollectorImpl implements DataCollector {
 	
 	private List<Double> waterLevel = new ArrayList<>();
 	private List<Double> time = new ArrayList<>();
-	private double startTime = new Date().getTime();
+	private double startTime = new Date().getTime() / 1000;
 	private String state;
 	private int gap;
 	private String mode;
