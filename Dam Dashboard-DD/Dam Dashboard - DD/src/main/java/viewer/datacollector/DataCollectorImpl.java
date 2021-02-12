@@ -1,13 +1,11 @@
 package viewer.datacollector;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
-import viewer.view.View;
 
 public class DataCollectorImpl implements DataCollector {
 
@@ -56,7 +54,6 @@ public class DataCollectorImpl implements DataCollector {
 	}
 	
 	public void CollectWaterLevel() {
-		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		client
 		  .get(port, host, "/level")
 		  .send()

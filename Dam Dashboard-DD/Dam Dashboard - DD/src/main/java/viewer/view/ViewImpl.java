@@ -10,6 +10,8 @@ import org.knowm.xchart.*;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import viewer.datacollector.DataCollector;
+import viewer.view.strategy.Logic;
+import viewer.view.strategy.LogicImpl;
 
 public class ViewImpl implements View {
 	
@@ -20,12 +22,15 @@ public class ViewImpl implements View {
 	private JLabel lblGap;
 	
 	private DataCollector dataCollector;
+	private final Logic logic;
 	private XYChart chart;
 	
 	public ViewImpl(DataCollector dataCollector) {
 		this.dataCollector = dataCollector;
+		
 		this.prepareCharts();
 		this.prepareGraphics();
+		this.logic = new LogicImpl(lblState, lblMode, lblGap, dataCollector, chart);
 	}
 	
 	private void prepareCharts() {
@@ -33,7 +38,7 @@ public class ViewImpl implements View {
 		fakeData.add((double) 0);
 		
 		this.chart = new XYChartBuilder().xAxisTitle("Time").yAxisTitle("Water Level").width(1200).height(400).build();
-		XYSeries series = this.chart.addSeries("Water Level", null, dataCollector.getWaterLevel());
+		XYSeries series = this.chart.addSeries("Water Level", dataCollector.getTime(), dataCollector.getWaterLevel());
 	    series.setMarker(SeriesMarkers.NONE);
 	    chart.getStyler().setYAxisMin((double) -10);
     	chart.getStyler().setYAxisMax((double) 10);
@@ -67,29 +72,7 @@ public class ViewImpl implements View {
 	}
 
 	@Override
-	public void setData(List<Double> time, List<Double> distance, List<Double> speed, List<Double> acceleration) {
-//		charts.get(0).updateXYSeries("Distance", time, distance, null);
-//	    charts.get(1).updateXYSeries("Speed", time, speed, null);
-//	    charts.get(2).updateXYSeries("Acceleration", time, acceleration, null);
-	    f.repaint();
-		
-	}
-
-	@Override
-	public void setState(String state) {
-		this.lblState.setText("Current state: " + state);
-		  
-		  this.lblState.repaint();
-		  
-	}
-
-	@Override
-	public void setCollector(DataCollector dataCollector) {
-		this.dataCollector = dataCollector;
-	}
-
-	@Override
-	public void setFreq(String freq) {
-		//this.lblFreq.setText("Sampling freq: " + freq + "Hz");
+	public void render() {
+		this.logic.execute();
 	}
 }
