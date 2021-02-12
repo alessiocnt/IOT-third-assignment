@@ -74,5 +74,6 @@ public class ViewImpl implements View {
 	@Override
 	public void render() {
 		this.logic.execute();
+		this.f.repaint();
 	}
 }

@@ -16,6 +16,7 @@ public class DataCollectorImpl implements DataCollector {
 	
 	private List<Double> waterLevel = new ArrayList<>();
 	private List<Double> time = new ArrayList<>();
+	private double startTime = new Date().getTime();
 	private String state;
 	private int gap;
 	private String mode;
@@ -27,7 +28,7 @@ public class DataCollectorImpl implements DataCollector {
 		this.client = WebClient.create(vertx);
 		
 		this.waterLevel.add((double) 3.0);
-		this.time.add((double) (new Date().getTime()/1000));
+		this.time.add((double) (0));
 		this.state = "normal";
 		this.gap = 0;
 		this.mode = "auto";
@@ -60,7 +61,7 @@ public class DataCollectorImpl implements DataCollector {
 		  .onSuccess(res -> { 
 			  //System.out.println("Getting - Received response with status code: " + res.statusCode());
 			  this.waterLevel.add(Double.parseDouble(res.bodyAsString()));
-			  this.time.add(((double) (new Date().getTime()/1000)) - this.time.get(0));
+			  this.time.add(((double) (new Date().getTime()/1000)) - this.startTime);
 		  })
 		  .onFailure(err ->
 		    System.out.println("Something went wrong " + err.getMessage()));

@@ -7,7 +7,7 @@ import viewer.view.ViewImpl;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		String host = "192.168.1.106";
+		String host = "192.168.1.48";
 		int port = 8000;
 		
 		DataCollector dataCollector = new DataCollectorImpl(host, port);

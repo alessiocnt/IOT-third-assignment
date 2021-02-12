@@ -28,6 +28,7 @@ public class LogicImpl implements Logic{
 	public void execute() {
 		this.dataCollector.CollectState();
 		this.state = dataCollector.getState();
+		// System.out.println(this.state);
 		if(this.state.equals("normal")) {
 			doNormalState();
 		} else if(this.state.equals("prealarm")) {
