@@ -8,7 +8,7 @@
 #include "ServoMotor.h"
 
 
-#define DELTA 10
+#define DELTA 1
 #define INIT_DELAY 15
 
 class ServoMovementTask : public Task

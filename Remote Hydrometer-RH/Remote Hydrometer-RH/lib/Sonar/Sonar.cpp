@@ -27,7 +27,7 @@ float Sonar::getDistance()
     if (d - lastDistance > 5)
     {
         // Errore di lettura, scarto il valore ritornando -1
-        return -1;
+        return 4.8;
     }
     lastDistance = d;
     Serial.println(d);

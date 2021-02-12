@@ -79,7 +79,7 @@ public class StrategyImpl implements Strategy {
         this.mode = mode;
         if (mode.equals("auto")) {
             activity.runOnUiThread(() -> {
-                //switchManual.setChecked(false);
+                switchManual.setChecked(false);
                 //switchManual.setEnabled(false);
 
                 btnGapDecrease.setEnabled(false);
@@ -87,7 +87,7 @@ public class StrategyImpl implements Strategy {
             });
         } else {
             activity.runOnUiThread(() -> {
-                //switchManual.setChecked(true);
+                switchManual.setChecked(true);
 
                 switchManual.setEnabled(true);
                 btnGapDecrease.setEnabled(true);

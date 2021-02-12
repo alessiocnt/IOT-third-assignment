@@ -23,6 +23,7 @@ public class BgTask extends AsyncTask {
 
     private Strategy strategy;
     private Context context;
+
     //private final String url = "http://192.168.1.106:8000";  // http://192.168.1.157:8000/test?water=1  https://192.168.1.106:8000/test?water=13
 
     public BgTask(final Strategy strategy, final Context context){

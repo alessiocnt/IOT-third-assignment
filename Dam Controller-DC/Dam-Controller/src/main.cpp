@@ -48,7 +48,7 @@ void createTasks()
 void setupTasks()
 {
     int MCD = 50;
-    servoMovementTask->init(MCD);
+    servoMovementTask->init(10);
     scheduler.addTask(servoMovementTask);
     servoMovementTask->setActive(true);
     blinkTask->init(MCD * 5, led1, BLINK_FOREVER);
@@ -60,7 +60,7 @@ void setupTasks()
     scheduler.addTask(alarmStateTask);
     manualModeTask->init(MCD);
     scheduler.addTask(manualModeTask);
-    msgControllerTask->init(MCD);
+    msgControllerTask->init(10);
     scheduler.addTask(msgControllerTask);
     msgControllerTask->setActive(true);
 }
@@ -71,7 +71,7 @@ void setup()
     createSensors();
     createTasks();
     setupTasks();
-    scheduler.init(50);
+    scheduler.init(10);
 }
 
 void loop()

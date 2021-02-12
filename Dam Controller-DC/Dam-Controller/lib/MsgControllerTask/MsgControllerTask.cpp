@@ -5,6 +5,7 @@ MsgControllerTask::MsgControllerTask()
 {
     btChannel.begin(9600);
     this->state = NORMAL;
+    this->mode = AUTO;
 }
 
 void MsgControllerTask::init(int period)
@@ -14,57 +15,68 @@ void MsgControllerTask::init(int period)
 
 void MsgControllerTask::tick()
 {
-    switch (this->state)
-    {
-    case NORMAL:
-        alarmStateTask->setActive(false);
-        manualModeTask->setActive(false);
-        normalStateTask->setActive(true);
-        break;
-    case MANUAL:
+
+    if(this->mode == AUTO) {
+        switch (this->state)
+        {
+        case NORMAL:
+            alarmStateTask->setActive(false);
+            manualModeTask->setActive(false);
+            normalStateTask->setActive(true);
+            break;
+        default:
+            normalStateTask->setActive(false);
+            manualModeTask->setActive(false);
+            alarmStateTask->setActive(true);
+            break;
+        }
+    } else {
         alarmStateTask->setActive(false);
         normalStateTask->setActive(false);
         manualModeTask->setActive(true);
-        break;
-    default:
-        normalStateTask->setActive(false);
-        manualModeTask->setActive(false);
-        alarmStateTask->setActive(true);
-        break;
     }
+    
     /* reading data from BT to Serial */
-    if (btChannel.available() && (this->state == ALARM || this->state == MANUAL)) {
-        msgInterpreter(btChannel.readString());
-        
-    } else if (Serial.available()) {
-        msgInterpreter(Serial.readString());
+
+    if (Serial.available()) {
+        msgInterpreter(Serial.readStringUntil('\r\n'));
     }
+
+    if (btChannel.available() && (this->state == ALARM || this->mode == MANUAL)) {
+        msgInterpreter(btChannel.readStringUntil('\r\n'));
+    } 
 }
 
 void MsgControllerTask::msgInterpreter(String msg) {
+    
     String pre;
     String suff;
     //msg.remove(msg.length() - 1);
     pre = msg.substring(0, msg.indexOf(':'));
     suff = msg.substring(msg.indexOf(':') + 1);
-    Serial.println(msg);
-    Serial.println(pre);
-    Serial.println(suff);
+    Serial.println("TOTAL = " + msg); 
+    // Serial.println("MSG = " + String(suff));
+    // Serial.println(pre);
+    // Serial.println(suff);
     if(pre.equalsIgnoreCase("state")) {
-        if(suff.equalsIgnoreCase("normal\n") || suff.equalsIgnoreCase("prealarm\n")) {
-            Serial.println("NormalState");
+        if(suff == "normal" || suff == "prealarm") {
+            //Serial.println("ARD = NormalState");
             this->state = NORMAL;
         } else {
-            Serial.println("AlarmState");
+            //Serial.println("ARD = AlarmState");
             this->state = ALARM;
         }
     } else if(pre.equalsIgnoreCase("mode")) {
-        if(suff.equalsIgnoreCase("manual\n")) {
-            Serial.println("Manual mode");
-            this->state = MANUAL;
+        if(suff == "manual") {
+            //Serial.println("ARD = Manual mode");
+            this->mode = MANUAL;
+        } else {
+            //Serial.println("ARD = Auto mode");
+            this->mode = AUTO;
         }
     } else if(pre.equalsIgnoreCase("gap")) {
-        int open = suff.toInt();
-        servoMovementTask->setPosition(map(open, 0, 100, 0, 180));
+        int val = map(suff.toInt(), 0, 100, 0 ,180);
+        Serial.println("Moving to " + String(val));
+        servoMovementTask->setPosition(val);
     }
 }
