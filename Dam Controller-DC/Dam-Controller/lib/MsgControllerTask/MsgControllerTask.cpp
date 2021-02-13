@@ -4,7 +4,7 @@
 MsgControllerTask::MsgControllerTask()
 {
     btChannel.begin(9600);
-    this->state = ALARM;
+    this->state = NORMAL;
     this->mode = AUTO;
 }
 
