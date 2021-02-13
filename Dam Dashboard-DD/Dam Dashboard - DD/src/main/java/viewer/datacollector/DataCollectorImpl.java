@@ -1,9 +1,7 @@
 package viewer.datacollector;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
 
@@ -17,7 +15,6 @@ public class DataCollectorImpl implements DataCollector {
 	
 	private List<Double> waterLevel = new ArrayList<>();
 	private List<Double> time = new ArrayList<>();
-	//private double startTime = new Date().getTime() / 1000;
 	private String state;
 	private int gap;
 	private String mode;
@@ -56,12 +53,10 @@ public class DataCollectorImpl implements DataCollector {
 	}
 	
 	public void CollectWaterLevel() {
-		double t;
 		client
 		  .get(port, host, "/time")
 		  .send()
 		  .onSuccess(res -> { 
-			  //System.out.println("Getting - Received response with status code: " + res.bodyAsString());
 			  this.time.add(Double.parseDouble(res.bodyAsString()));
 		  })
 		  .onFailure(err ->
@@ -74,13 +69,10 @@ public class DataCollectorImpl implements DataCollector {
 		  .get(port, host, "/level")
 		  .send()
 		  .onSuccess(res -> { 
-			  //System.out.println("Getting - Received response with status code: " + res.statusCode());
 			  this.waterLevel.add(Double.parseDouble(res.bodyAsString()));
-			  
 		  })
 		  .onFailure(err ->
 		    System.out.println("Something went wrong " + err.getMessage()));
-		
 		if(this.waterLevel.size() > Nril) {
 			this.waterLevel.remove(0);
 			this.time.remove(0);
@@ -92,7 +84,6 @@ public class DataCollectorImpl implements DataCollector {
 		  .get(port, host, "/state")
 		  .send()
 		  .onSuccess(res -> { 
-			  //System.out.println("Getting - Received response with status code: " + res.statusCode());
 			  this.state = res.bodyAsString();
 		  })
 		  .onFailure(err ->
@@ -104,7 +95,6 @@ public class DataCollectorImpl implements DataCollector {
 		  .get(port, host, "/mode")
 		  .send()
 		  .onSuccess(res -> { 
-			  //System.out.println("Getting - Received response with status code: " + res.statusCode());
 			  this.mode = res.bodyAsString();
 		  })
 		  .onFailure(err ->
@@ -116,11 +106,9 @@ public class DataCollectorImpl implements DataCollector {
 		  .get(port, host, "/gap")
 		  .send()
 		  .onSuccess(res -> { 
-			  //System.out.println("Getting - Received response with status code: " + res.statusCode());
 			  this.gap = Integer.parseInt(res.bodyAsString());
 		  })
 		  .onFailure(err ->
 		    System.out.println("Something went wrong " + err.getMessage()));
 	}
-	
 }

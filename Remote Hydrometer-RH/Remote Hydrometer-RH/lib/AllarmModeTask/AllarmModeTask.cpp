@@ -15,14 +15,12 @@ void AllarmModeTask::init(int period)
 
 void AllarmModeTask::tick()
 {
-   // Serial.println("AllMode");
     timer++;
     float currentDistance = sonar->getDistance();
-   // Serial.println(currentDistance);
     if (this->myPeriod * this->timer >= SEND_ALL_TIME)
     {
         /* Send msg */
-        Serial.println("Invio all");
+        Serial.println("Invio alarm msg");
         /* Convert float to char[] */
         char buff[6];
         dtostrf(currentDistance, 4, 2, buff);
@@ -33,7 +31,7 @@ void AllarmModeTask::tick()
     
     if(currentDistance >= D1) 
     {
-        Serial.println("Vado in Norm");
+        Serial.println("Vado in Normal");
         mqtt->publish("SimAleS", "normal");
         char buff[6];
         dtostrf(currentDistance, 4, 2, buff);
@@ -45,7 +43,7 @@ void AllarmModeTask::tick()
     } 
     else if (currentDistance >= D2 && currentDistance <= D1)
     {
-        Serial.println("Vado in PreAll");
+        Serial.println("Vado in PreAlarm");
         mqtt->publish("SimAleS", "prealarm");
         char buff[6];
         dtostrf(currentDistance, 4, 2, buff);

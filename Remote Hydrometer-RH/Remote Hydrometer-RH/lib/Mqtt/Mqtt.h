@@ -10,10 +10,9 @@
 class Mqtt
 {
 private:
-    const char* mqtt_server; //"broker.mqtt-dashboard.com"
+    const char* mqtt_server;
     int value = 0;
     void reconnect();
-    //void callback(char* topic, byte* payload, unsigned int length);
 
 public:
     Mqtt();
