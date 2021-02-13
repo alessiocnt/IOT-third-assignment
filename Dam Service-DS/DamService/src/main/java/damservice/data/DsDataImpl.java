@@ -18,11 +18,8 @@ public class DsDataImpl implements DsData {
 	private DsMsgSender msgSender;
 	private double startTime = new Date().getTime() / 1000;
 	
-	// Norm->Pre 4m
-	// Pre->Ala 4.60m
 	
-	private final float L1 = (float) 4.00;
-	private final float L2 = (float) 4.60;
+	private static final float L2 = (float) 4.60;
 	private final float DeltaL = (float) 0.04;
 	
 	public DsDataImpl(DsMsgSender msgSender) {
@@ -35,8 +32,6 @@ public class DsDataImpl implements DsData {
 	public void pushWaterLevel(float level) {
 		this.waterLevel.add((float) (5 - level));
 		this.time.add(((double) (new Date().getTime()/1000)) - this.startTime);
-		//System.out.println("Settato lvl " + this.waterLevel.get(this.waterLevel.size() - 1) + " all'ora " + this.time.get(this.waterLevel.size() - 1));
-		//System.out.println("Livello: " + this.waterLevel.get(this.waterLevel.size() - 1));
 		if(this.mode == Mode.AUTO) {
 			this.adjustGap();
 		}
@@ -78,10 +73,8 @@ public class DsDataImpl implements DsData {
 
 	@Override
 	public void setGapLevel(int gap) {
-		//System.out.println("Setting gap to " + gap);
 		this.gapLevel = gap;
 		this.msgSender.sendDamGap(gap);
-		//System.out.println("Setted");
 	}
 
 	@Override

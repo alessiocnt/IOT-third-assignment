@@ -19,9 +19,9 @@ public class HttpHandler {
 		try {
 			this.server = HttpServer.create(new InetSocketAddress(8000), 0);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// Makes the webserver respond to the needed urls
 		createModeContext();
 		createStateContext();
 		createLevelContext();
