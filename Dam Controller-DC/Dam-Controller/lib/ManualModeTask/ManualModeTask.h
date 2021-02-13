@@ -6,6 +6,9 @@
 #include "header.h"
 #include "main.h"
 
+/**
+ * Models the system manual mode 
+ */
 class ManualModeTask : public Task
 {
 public:

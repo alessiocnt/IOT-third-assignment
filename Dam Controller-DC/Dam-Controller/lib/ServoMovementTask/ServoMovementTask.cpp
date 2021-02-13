@@ -28,16 +28,10 @@ void ServoMovementTask::setPosition(int position)
 
 void ServoMovementTask::tick()
 {
-    //Serial.println("ARD = POSITION = " + String(position) + " NEXTPOSITION = " + String(nextPosition));
     if (position == nextPosition)
     {
         return;
     }
-    // if(abs(nextPosition - position) < DELTA) 
-    // {
-    //     position = nextPosition;
-    // } 
-    // else 
     if (position > nextPosition)
     {
         position -= DELTA;

@@ -6,6 +6,9 @@
 #include "header.h"
 #include "main.h"
 
+/**
+ * Models the system alarm state 
+ */
 class AlarmStateTask : public Task
 {
 public:

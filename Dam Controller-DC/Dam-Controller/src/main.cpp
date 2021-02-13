@@ -1,3 +1,10 @@
+/**
+*	Ceredi Simone - simone.ceredi@studio.unibo.it
+*	Conti Alessio - alessio.conti3@studio.unibo.it
+*/
+
+
+
 #include <Arduino.h>
 #include "SoftwareSerial.h"
 #include "header.h"
@@ -10,12 +17,6 @@
 #include "NormalStateTask.h"
 #include "AlarmStateTask.h"
 #include "Scheduler.h"
-
-/*
- *  BT module connection:  
- *  - pin 2 <=> TXD
- *  - pin 3 <=> RXD
- */ 
 
 ServoMovementTask *servoMovementTask;
 BlinkTask *blinkTask;
@@ -47,20 +48,19 @@ void createTasks()
 
 void setupTasks()
 {
-    int MCD = 50;
-    servoMovementTask->init(10);
+    servoMovementTask->init(SCHEDULE_TIME);
     scheduler.addTask(servoMovementTask);
     servoMovementTask->setActive(true);
-    blinkTask->init(MCD * 5, led1, BLINK_FOREVER);
+    blinkTask->init(SCHEDULE_TIME * 25, led1, BLINK_FOREVER);
     blinkTask->setActive(false);
     scheduler.addTask(blinkTask);
-    normalStateTask->init(MCD);
+    normalStateTask->init(SCHEDULE_TIME * 5);
     scheduler.addTask(normalStateTask);
-    alarmStateTask->init(MCD);
+    alarmStateTask->init(SCHEDULE_TIME * 5);
     scheduler.addTask(alarmStateTask);
-    manualModeTask->init(MCD);
+    manualModeTask->init(SCHEDULE_TIME * 5);
     scheduler.addTask(manualModeTask);
-    msgControllerTask->init(10);
+    msgControllerTask->init(SCHEDULE_TIME);
     scheduler.addTask(msgControllerTask);
     msgControllerTask->setActive(true);
 }
@@ -71,11 +71,10 @@ void setup()
     createSensors();
     createTasks();
     setupTasks();
-    scheduler.init(10);
+    scheduler.init(SCHEDULE_TIME);
 }
 
 void loop()
 {
-    // put your main code here, to run repeatedly:
     scheduler.schedule();
 }

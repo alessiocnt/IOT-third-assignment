@@ -7,6 +7,9 @@
 #include "main.h"
 #include "SoftwareSerial.h"
 
+/**
+ * Main component of the system, manages every message, and activates the tasks based on the messages it recives
+ */
 class MsgControllerTask : public Task
 {
 private:

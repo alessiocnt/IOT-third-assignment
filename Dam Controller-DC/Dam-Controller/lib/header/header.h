@@ -14,5 +14,6 @@ class ManualModeTask;
 #define HC_RX_PIN 3
 #define LED_PIN 4
 #define SERVO_PIN 5
+#define SCHEDULE_TIME 10
 
 #endif

@@ -9,6 +9,6 @@ void AlarmStateTask::init(int period) {
 }
 
 void AlarmStateTask::tick() {
-    //Serial.println("Alarm");
+    // Activates the led blinking
     blinkTask->setActive(true);
 }

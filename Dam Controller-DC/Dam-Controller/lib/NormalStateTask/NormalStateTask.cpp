@@ -9,7 +9,7 @@ void NormalStateTask::init(int period) {
 }
 
 void NormalStateTask::tick() {
-    //Serial.println("Normal");
+    // Turns off the led
     blinkTask->setActive(false);
     led1->switchOff();
 }

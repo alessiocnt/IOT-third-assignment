@@ -6,9 +6,10 @@
 #include "Task.h"
 #include "main.h"
 
-#define DELTA 5
 #define INIT_DELAY 15
-
+/**
+ * Models the system normal state 
+ */
 class NormalStateTask : public Task
 {
 public:

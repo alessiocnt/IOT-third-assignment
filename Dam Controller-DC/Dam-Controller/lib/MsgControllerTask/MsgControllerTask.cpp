@@ -4,7 +4,7 @@
 MsgControllerTask::MsgControllerTask()
 {
     btChannel.begin(9600);
-    this->state = NORMAL;
+    this->state = ALARM;
     this->mode = AUTO;
 }
 
@@ -15,7 +15,7 @@ void MsgControllerTask::init(int period)
 
 void MsgControllerTask::tick()
 {
-
+    // Activates the right task for the current state/mode
     if(this->mode == AUTO) {
         switch (this->state)
         {
@@ -36,7 +36,7 @@ void MsgControllerTask::tick()
         manualModeTask->setActive(true);
     }
     
-    /* reading data from BT to Serial */
+    // Reads data form the serial (sent from the ds) or from bt (sent from dm)
 
     if (Serial.available()) {
         msgInterpreter(Serial.readStringUntil('\r\n'));
@@ -48,33 +48,25 @@ void MsgControllerTask::tick()
 }
 
 void MsgControllerTask::msgInterpreter(String msg) {
-    
+    // Splits the recived string in order to interpret it
     String pre;
     String suff;
-    //msg.remove(msg.length() - 1);
     pre = msg.substring(0, msg.indexOf(':'));
     suff = msg.substring(msg.indexOf(':') + 1);
-    Serial.println("TOTAL = " + msg); 
-    // Serial.println("MSG = " + String(suff));
-    // Serial.println(pre);
-    // Serial.println(suff);
     if(pre.equalsIgnoreCase("state")) {
         if(suff == "normal" || suff == "prealarm") {
-            //Serial.println("ARD = NormalState");
             this->state = NORMAL;
         } else {
-            //Serial.println("ARD = AlarmState");
             this->state = ALARM;
         }
     } else if(pre.equalsIgnoreCase("mode")) {
         if(suff == "manual") {
-            //Serial.println("ARD = Manual mode");
             this->mode = MANUAL;
         } else {
-            //Serial.println("ARD = Auto mode");
             this->mode = AUTO;
         }
     } else if(pre.equalsIgnoreCase("gap")) {
+        // Sets the dam openness
         int val = map(suff.toInt(), 0, 100, 0 ,180);
         Serial.println("Moving to " + String(val));
         servoMovementTask->setPosition(val);
