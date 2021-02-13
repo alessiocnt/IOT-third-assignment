@@ -12,10 +12,7 @@
 
 #include "Mqtt.h"
 #include "WifiConnector.h"
-/* #include "NormalModeTask.h"
-#include "PreAllarmModeTask.h"
-#include "BlinkTask.h" */
-//#include "AllarmModeTask.h"
+
 const char* ssid     = "TIM-18270469-rep";         // TIM-18270469-rep  android_ale  The SSID (name) of the Wi-Fi network you want to connect to
 const char* password = "ceredi63";            // ceredi63           alessio3     The password of the Wi-Fi network
 Mqtt *mqtt = new Mqtt();
@@ -66,7 +63,6 @@ void setup()
     delay(10);
     WifiConnector::setupWifi(ssid, password);
     mqtt->connect("broker.mqtt-dashboard.com");
-//    mqtt->subscribe("inTopic");
     createSensors();
     createTasks();
     setupTasks();
@@ -77,7 +73,6 @@ void setup()
 
 void loop()
 {
-    //Serial.println("Loop");
     mqtt->loop();
     scheduler.schedule();
 }

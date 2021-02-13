@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -60,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //this.bgTask = new BgTask(strategy, this);
-        //bgTask.execute();
     }
 
     @Override
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        btChannel.close();
+        btChannel.close();
     }
 
     private void initUI() {
@@ -91,8 +90,6 @@ public class MainActivity extends AppCompatActivity {
         btnGapDecrease.setEnabled(false);
         btnGapIncrease.setEnabled(false);
         switchManual.setEnabled(false);
-
-        //this.strategy = new StrategyImpl(this, btChannel, textState, switchManual, textLevel, btnGapDecrease, textGap, btnGapIncrease);
 
         btnGapDecrease.setOnClickListener(v -> {
             strategy.decreaseGap();
@@ -141,28 +138,19 @@ public class MainActivity extends AppCompatActivity {
                 btChannel.registerListener(new RealBluetoothChannel.Listener() {
                     @Override
                     public void onMessageReceived(String receivedMessage) {
-                        /**((TextView) findViewById(R.id.chatLabel)).append(String.format("> [RECEIVED from %s] %s\n",
-                                btChannel.getRemoteDeviceName(),
-                                receivedMessage));**/
+                        Log.i("Ok", "New msg recived.");
                     }
                     @Override
                     public void onMessageSent(String sentMessage) {
-                        /**((TextView) findViewById(R.id.chatLabel)).append(String.format("> [SENT to %s] %s\n",
-                                btChannel.getRemoteDeviceName(),
-                                sentMessage));**/
+                        Log.i("Ok", "New msg sent.");
                     }
                 });
             }
 
             @Override
             public void onConnectionCanceled() {
-                /**try {
-                    connectToBTServer();
-                } catch (BluetoothDeviceNotFound bluetoothDeviceNotFound) {
-                    bluetoothDeviceNotFound.printStackTrace();
-                }**/
+                Log.i("Connection", "Connection terminated.");
             }
         }).execute();
     }
-
 }

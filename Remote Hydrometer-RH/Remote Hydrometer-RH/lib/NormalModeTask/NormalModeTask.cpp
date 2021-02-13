@@ -14,44 +14,34 @@ void NormalModeTask::init(int period)
 
 void NormalModeTask::tick()
 {
-  //  Serial.println("NormalMode");
     float currentDistance = sonar->getDistance();
-   // Serial.println(currentDistance);
-    // Nel caso in cui ci sia una variazione eccessiva del valore in un lasso di tempo molto limitato ipotizzo una lettura errata del dispositivo
-    /* if(abs(currentDistance - prevDistance) > 1 )
+    if(currentDistance >= D2 && currentDistance <= D1) 
     {
-        return;
-    } */
-        if(currentDistance >= D2 && currentDistance <= D1) 
-        {
-            Serial.println("Vado in pre");
-            mqtt->publish("SimAleS", "prealarm");
-            /* Convert float to char[] */
-            char buff[6];
-            dtostrf(currentDistance, 4, 2, buff);
-            mqtt->publish("SimAleD", buff);
-            this->setActive(false);
-            blinkTask->init(BLINKING_PERIOD, led, BLINK_FOREVER);
-            blinkTask->setActive(true);
-            preAllarmModeTask->setup();
-            preAllarmModeTask->setActive(true);
-        } 
-        else if (currentDistance <= D2)
-        {
-            this->setActive(false);
-            Serial.println("Vado in allarme");
-            mqtt->publish("SimAleS", "alarm");
-            char buff[6];
-            dtostrf(currentDistance, 4, 2, buff);
-            mqtt->publish("SimAleD", buff);
-            led->switchOn();
-            allarmModeTask->setup();
-            allarmModeTask->setActive(true);
-        }
-        /* else
-        {
-            this->prevDistance = currentDistance;
-        } */
+        Serial.println("Vado in PreAlarm");
+        mqtt->publish("SimAleS", "prealarm");
+        /* Convert float to char[] */
+        char buff[6];
+        dtostrf(currentDistance, 4, 2, buff);
+        mqtt->publish("SimAleD", buff);
+        this->setActive(false);
+        blinkTask->init(BLINKING_PERIOD, led, BLINK_FOREVER);
+        blinkTask->setActive(true);
+        preAllarmModeTask->setup();
+        preAllarmModeTask->setActive(true);
+    } 
+    else if (currentDistance <= D2)
+    {
+        this->setActive(false);
+        Serial.println("Vado in Alarm");
+        mqtt->publish("SimAleS", "alarm");
+        /* Convert float to char[] */
+        char buff[6];
+        dtostrf(currentDistance, 4, 2, buff);
+        mqtt->publish("SimAleD", buff);
+        led->switchOn();
+        allarmModeTask->setup();
+        allarmModeTask->setActive(true);
+    }
 }
 
 void NormalModeTask::setup()

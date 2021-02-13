@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Mqtt.h"
-#include <ESP8266WiFi.h>        // Include the Wi-Fi library
+#include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
 unsigned long lastMsg = 0;
